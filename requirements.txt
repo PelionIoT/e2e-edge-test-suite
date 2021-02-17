@@ -1,0 +1,16 @@
+setuptools_scm==3.2.0
+pytest==5.3.4
+pytest-rerunfailures
+pytest-html==1.22.0
+kubernetes==10.0.1
+pip==21.0.1
+Jinja2
+xlrd
+awscli
+pyyaml
+boto3
+requests
+ws4py
+pyserial
+aiohttp
+paramiko
