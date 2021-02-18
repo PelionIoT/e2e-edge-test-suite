@@ -27,16 +27,16 @@ class TestEdgeAttributes:
         log.info(tc_config_data)
 
     @pytest.mark.edge_smoke
-    def test_03_put_edge_lifetime(self,  edge, cloud_api, websocket):
+    def test_03_put_edge_lifetime(self, edge, cloud_api, websocket):
         lifetime = random.randint(1000, 3599)
         lifetime_ascii = str(lifetime).encode('ascii')
         lifetime_b64 = str(base64.b64encode(lifetime_ascii), 'utf-8')
-        log.info('Set Edge: {}, lifetime: {} seconds.'.format( edge.device_id, lifetime))
+        log.info('Set Edge: {}, lifetime: {} seconds.'.format(edge.device_id, lifetime))
 
         payload = {'method': 'PUT', 'uri': '/1/0/1', 'payload-b64': lifetime_b64}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge.device_id,
+                                                                       ep_id=edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -44,13 +44,13 @@ class TestEdgeAttributes:
         self.resource.lifetime = lifetime
 
     @pytest.mark.edge_smoke
-    def test_04_get_edge_lifetime(self,  edge, cloud_api, websocket):
+    def test_04_get_edge_lifetime(self, edge, cloud_api, websocket):
         log.info('Get Edge: {} lifetime value. '.format(edge.device_id))
 
         payload = {'method': 'GET', 'uri': '/1/0/1'}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge.device_id,
+                                                                       ep_id=edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -60,7 +60,7 @@ class TestEdgeAttributes:
         assert int(lifetime) == self.resource.lifetime, 'Lifetime value is not expected'
 
     @pytest.mark.edge_smoke
-    def test_05_post_trigger_registration_update(self,  edge, cloud_api, websocket):
+    def test_05_post_trigger_registration_update(self, edge, cloud_api, websocket):
         wait_time = 60
 
         log.info('Trigger registration update')
@@ -69,7 +69,7 @@ class TestEdgeAttributes:
         payload = {'method': 'POST', 'uri': '/1/0/8'}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge.device_id,
+                                                                       ep_id=edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -77,7 +77,7 @@ class TestEdgeAttributes:
 
         ts = time.time()
         # check registration update for endpoints
-        data = websocket.wait_for_registration_updates( edge.device_id, wait_time)
+        data = websocket.wait_for_registration_updates(edge.device_id, wait_time)
         te = time.time()
 
         if not data:
@@ -86,8 +86,6 @@ class TestEdgeAttributes:
                 for edge during {} second(s).'.format(wait_time))
 
         log.info('Time for registration updates {:.4f} s'.format(te - ts))
-
-
 
 
 import logging
@@ -99,7 +97,6 @@ from pelion_systest_lib.edge.kaas import Kaas
 from pelion_systest_lib.tools import execute_local_command, execute_with_retry
 
 log = logging.getLogger(__name__)
-
 
 
 class TestEdgeKaasKubectl:

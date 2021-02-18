@@ -4,12 +4,11 @@ import uuid
 
 import pytest
 
-
 pytest_plugins = [
-                  'pelion_systest_lib.fixtures.edge_fixtures',
-                  'pelion_systest_lib.fixtures.general_fixtures',
-                  'pelion_systest_lib.fixtures.iam_fixtures',
-                  'pelion_systest_lib.fixtures.notification_fixtures'
+    'pelion_systest_lib.fixtures.edge_fixtures',
+    'pelion_systest_lib.fixtures.general_fixtures',
+    'pelion_systest_lib.fixtures.iam_fixtures',
+    'pelion_systest_lib.fixtures.notification_fixtures'
 ]
 
 log = logging.getLogger(__name__)
@@ -94,21 +93,17 @@ def pytest_sessionfinish(session, exitstatus):
     log.info('-----  TEST RESULTS SUMMARY  -----')
     log.info('[ check the complete fail reasons and code locations from this log or html report ]')
     for resp in pytest.global_test_results:
-            result = resp['result']
-            if result == 'failed':
-                result = result.upper()
-            log.info('[{}] - {} - ({:.3f}s)'.format(result, resp['test_name'], resp['duration']))
-            if resp['error_msg'] != '':
-                take_these = 3
-                for line in resp['error_msg'].splitlines():
-                    if take_these > 0:
-                        log.info(line)
-                    else:
-                        log.info('E ---8<--- Error log summary cut down to few lines, '
-                                 'check full log above or from html report ---8<---\n')
-                        break
-                    take_these -= 1
-
-
-
-
+        result = resp['result']
+        if result == 'failed':
+            result = result.upper()
+        log.info('[{}] - {} - ({:.3f}s)'.format(result, resp['test_name'], resp['duration']))
+        if resp['error_msg'] != '':
+            take_these = 3
+            for line in resp['error_msg'].splitlines():
+                if take_these > 0:
+                    log.info(line)
+                else:
+                    log.info('E ---8<--- Error log summary cut down to few lines, '
+                             'check full log above or from html report ---8<---\n')
+                    break
+                take_these -= 1
