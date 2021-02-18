@@ -18,10 +18,10 @@ class RemoteTerminal:
         self.url = url
 
     @staticmethod
-    def get_wss_address(api_gw, internal_id):
-        return '{api_gw}/v3alpha/devices/{internal_id}/console'.format(
+    def get_wss_address(api_gw, device_id):
+        return '{api_gw}/v3alpha/devices/{device_id}/console'.format(
             api_gw=api_gw.replace('https', 'wss'),
-            internal_id=internal_id
+            device_id=device_id
         )
 
     @staticmethod
@@ -123,16 +123,16 @@ class RemoteTerminal:
         return ret
 
 
-def execute_command_on_gateway(edge_internal_id, tc_config_data, command):
+def execute_command_on_gateway(edge, tc_config_data, command):
     """
     Function to execute command on gateway terminal
-    :param edge_internal_id: Edge instance internal ID
+    :param edge: Edge instance internal ID
     :param tc_config_data: Configuration json content
     :param command: command which has to be executed as string
     :return: message from device terminal as string
     """
     gateway_resp = RemoteTerminal(
         api_key=tc_config_data['api_key'],
-        url=RemoteTerminal.get_wss_address(tc_config_data['api_gw'], edge_internal_id)
+        url=RemoteTerminal.get_wss_address(tc_config_data['api_gw'], edge.device_id)
     ).execute_command(command)
     return gateway_resp

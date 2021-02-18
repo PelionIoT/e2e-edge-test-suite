@@ -25,7 +25,7 @@ class EdgeConnector(EdgeConfig):
         super().__init__(tc_config_data)
 
         log.debug('Initializing edge connector')
-        self._internal_id = self.internal_id_configuration_value
+        self._device_id = self.device_id_configuration_value
 
         self.connector = self.get_connector_instance(self.connection_type, tc_config_data)
 
@@ -70,17 +70,17 @@ class EdgeConnector(EdgeConfig):
     def execute_remote_terminal(self, command):
         return RemoteTerminal(
             api_key=self.api_key,
-            url=RemoteTerminal.get_wss_address(self.api_gw, self.internal_id)
+            url=RemoteTerminal.get_wss_address(self.api_gw, self.device_id)
         ).execute_command(command)
 
     @property
     def device_id(self):
         """
-        Read internal_id from configuration
+        Read device_id from configuration
         :return:
         """
 
-        return self._internal_id
+        return self._device_id
 
     @property
     def has_remote_terminal(self):

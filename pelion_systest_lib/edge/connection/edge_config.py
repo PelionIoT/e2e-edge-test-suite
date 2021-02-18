@@ -25,5 +25,5 @@ class EdgeConfig:
         return self.tc_config_data['api_gw']
 
     @property
-    def internal_id_configuration_value(self):
-        return self.tc_config_data.get('internal_id', None)
+    def device_id_configuration_value(self):
+        return self.tc_config_data.get('device_id', None)

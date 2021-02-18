@@ -39,14 +39,7 @@ def load_config(config_path):
         try:
             with open(config_path, 'r') as config_file:
                 config_data = json.load(config_file)
-                if 'use_ssm' in config_data and config_data['use_ssm'] is True:
-                    log.debug('use_ssm flag is on, checking if need to fetch data from SSM...')
-                    if 'region' in config_data:
-                        region = config_data['region']
-                    else:
-                        region = get_region()
-                    aws_client = boto3.client('ssm', region_name=region)
-                    fetch_ssm_data(aws_client, config_data)
+
         except ValueError as e:
             error_msg = 'JSON syntax error on test configs from path: {}, {}'.format(config_path, e)
             log.error(error_msg)

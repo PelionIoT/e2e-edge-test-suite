@@ -66,8 +66,8 @@ class Kubectl:
         return kube_config_path
 
     @staticmethod
-    def describe_node(edge_internal_id):
-        return execute_local_command('kubectl describe nodes {}'.format(edge_internal_id))
+    def describe_node(edge):
+        return execute_local_command('kubectl describe nodes {}'.format(edge.device_id))
 
     @staticmethod
     def view_config():
@@ -106,12 +106,12 @@ class Kubectl:
         return execute_local_command('kubectl create -f {}'.format(pod_yaml_file))
 
     @staticmethod
-    def manipulate_simple_pod_yaml(pod_yaml, edge_internal_id, pod_name):
+    def manipulate_simple_pod_yaml(pod_yaml, edge, pod_name):
         with open(pod_yaml, 'r') as f:
             data = f.read()
             original_data = data
             if 'ReplaceNodeName' in data:
-                data = data.replace('ReplaceNodeName', edge_internal_id)
+                data = data.replace('ReplaceNodeName', edge.device_id)
             if 'ReplacePodName' in data:
                 data = data.replace('ReplacePodName', pod_name)
         with open(pod_yaml, 'w') as f:
@@ -131,8 +131,8 @@ class Kubectl:
             time.sleep(delay_in_sec)
         return response
 
-    def get_node(self, edge_internal_id, expected_status, retry_count=30, delay_in_sec=5):
-        response = self.execute_with_retry(command='kubectl get node {}'.format(edge_internal_id),
+    def get_node(self, edge, expected_status, retry_count=30, delay_in_sec=5):
+        response = self.execute_with_retry(command='kubectl get node {}'.format(edge.device_id),
                                            assert_text=expected_status, retry_count=retry_count,
                                            delay_in_sec=delay_in_sec)
         return response

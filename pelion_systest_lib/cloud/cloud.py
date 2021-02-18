@@ -162,7 +162,7 @@ class PelionCloud:
     def reset(self, device_id, channel, async_id=None):
         """
         Reset device
-        :param edge_internal_id: Get internal id
+        :param device_id: device id
         :param channel: Webhook / callback api
         :param async_id: Async id if predefined
         :param
@@ -186,7 +186,7 @@ class PelionCloud:
     def wait_registration(device_id, websocket, timeout=300):
         """
         Wait device registration from given channel
-        :param edge_internal_id: device internal id
+        :param device id: device id
         :param channel: callback / websocket fixture
         :return:
         """

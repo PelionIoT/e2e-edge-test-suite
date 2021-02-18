@@ -27,16 +27,16 @@ class TestEdgeAttributes:
         log.info(tc_config_data)
 
     @pytest.mark.edge_smoke
-    def test_03_put_edge_lifetime(self,  edge_internal_id, cloud_api, websocket):
+    def test_03_put_edge_lifetime(self,  edge, cloud_api, websocket):
         lifetime = random.randint(1000, 3599)
         lifetime_ascii = str(lifetime).encode('ascii')
         lifetime_b64 = str(base64.b64encode(lifetime_ascii), 'utf-8')
-        log.info('Set Edge: {}, lifetime: {} seconds.'.format( edge_internal_id, lifetime))
+        log.info('Set Edge: {}, lifetime: {} seconds.'.format( edge.device_id, lifetime))
 
         payload = {'method': 'PUT', 'uri': '/1/0/1', 'payload-b64': lifetime_b64}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge_internal_id,
+                                                                       ep_id= edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -44,13 +44,13 @@ class TestEdgeAttributes:
         self.resource.lifetime = lifetime
 
     @pytest.mark.edge_smoke
-    def test_04_get_edge_lifetime(self,  edge_internal_id, cloud_api, websocket):
-        log.info('Get Edge lifetime value. {}'.format(edge_internal_id))
+    def test_04_get_edge_lifetime(self,  edge, cloud_api, websocket):
+        log.info('Get Edge: {} lifetime value. '.format(edge.device_id))
 
         payload = {'method': 'GET', 'uri': '/1/0/1'}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge_internal_id,
+                                                                       ep_id= edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -60,7 +60,7 @@ class TestEdgeAttributes:
         assert int(lifetime) == self.resource.lifetime, 'Lifetime value is not expected'
 
     @pytest.mark.edge_smoke
-    def test_05_post_trigger_registration_update(self,  edge_internal_id, cloud_api, websocket):
+    def test_05_post_trigger_registration_update(self,  edge, cloud_api, websocket):
         wait_time = 60
 
         log.info('Trigger registration update')
@@ -69,7 +69,7 @@ class TestEdgeAttributes:
         payload = {'method': 'POST', 'uri': '/1/0/8'}
         resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                        channel_type=websocket,
-                                                                       ep_id= edge_internal_id,
+                                                                       ep_id= edge.device_id,
                                                                        apikey=websocket.api_key,
                                                                        payload=payload, async_id=None)
 
@@ -77,7 +77,7 @@ class TestEdgeAttributes:
 
         ts = time.time()
         # check registration update for endpoints
-        data = websocket.wait_for_registration_updates( edge_internal_id, wait_time)
+        data = websocket.wait_for_registration_updates( edge.device_id, wait_time)
         te = time.time()
 
         if not data:
@@ -109,38 +109,30 @@ class TestEdgeKaasKubectl:
     """
 
     @staticmethod
-    def load_test_pod_content(pod_name, edge_internal_id):
+    def load_test_pod_content(pod_name, device_id):
         pod_yaml_file = 'test_pod.yaml'
         with open(pod_yaml_file, 'w') as file:
             content = Kaas.get_yaml_template(
                 data_folder='data',
                 file_name='test_edge_smoke.yaml').render(
                 pod_name=pod_name,
-                node_name=edge_internal_id
+                node_name=device_id
             )
             log.debug("{} content: {}".format(pod_yaml_file, content))
             file.write(content)
         return pod_yaml_file
 
     @pytest.fixture(scope="class")
-    def pod(self, edge_internal_id, tc_config_data, edge, kubectl):
-        pod_name = tc_config_data.get('pod')
-        if pod_name:
-            # Long running test
-            log.info('Pod not created, testing existing pod: {}'.format(pod_name))
-        else:
-            # create new pod and delete after test
-            pod_name = 'test-pod-syte-{}'.format(edge_internal_id)
-            pod_yaml_file = self.load_test_pod_content(pod_name, edge_internal_id)
-            kubectl.create_pod(pod_yaml_file)
-            time.sleep(1)  # Wait a bit because idea is not to stress kaas too much
+    def pod(self, edge, tc_config_data, kubectl):
+        # create new pod and delete after test
+        pod_name = 'test-pod-syte-{}'.format(edge.device_id)
+        pod_yaml_file = self.load_test_pod_content(pod_name, edge.device_id)
+        kubectl.create_pod(pod_yaml_file)
+        time.sleep(1)  # Wait a bit because idea is not to stress kaas too much
 
         yield pod_name
 
-        if tc_config_data.get('pod'):
-            log.info('Skipping pod {} delete.'.format(pod_name))
-        else:
-            execute_local_command('kubectl delete pods {}  --force --grace-period=0'.format(pod_name))
+        execute_local_command('kubectl delete pods {}  --force --grace-period=0'.format(pod_name))
 
     def test_01_get_config(self, kubectl, edge):
         """ Checks that configuration looks right, it is important to keep edge fixture here to make sure that
@@ -155,16 +147,16 @@ class TestEdgeKaasKubectl:
         assert 'edge-k8s' in kubectl.get_contexts(), 'kubectl environment configuration error'
 
     def test_02_curl_get_node(self, edge):
-        command = "curl -X GET -v   {edge_k8s_url}/api/v1/nodes/{internal_id}  -H 'Authorization: Bearer {api_key}'".format(
+        command = "curl -X GET -v   {edge_k8s_url}/api/v1/nodes/{device_id}  -H 'Authorization: Bearer {api_key}'".format(
             edge_k8s_url=edge.tc_config_data.get('edge_k8s_url'),
-            internal_id=edge.internal_id,
+            device_id=edge.device_id,
             api_key=edge.tc_config_data.get('api_key'))
         # It takes some time that edge is registered in the KaaS
-        response = execute_with_retry(command, edge.internal_id)
+        response = execute_with_retry(command, edge.device_id)
         assert 'NotFound' not in response
 
-    def test_02_kubectl_get_nodes(self, edge_internal_id):
+    def test_02_kubectl_get_nodes(self, edge):
         response = execute_with_retry(
             command='kubectl get nodes',
-            assert_text=edge_internal_id)
-        assert edge_internal_id in response, 'Internal id not found from KAAS nodes list'
+            assert_text=edge.device_id)
+        assert edge.device_id in response, 'Internal id not found from KAAS nodes list'

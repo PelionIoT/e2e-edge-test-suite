@@ -14,12 +14,12 @@ class RemoteTerminalConnection(AbstractConnector):
     def __init__(self, config):
         log.debug('LocalConnection')
 
-        if 'internal_id' not in config.keys():
-            raise Exception('internal_id is missing from configuration. RemoteTerminalConnection cannot install edge!')
+        if 'device_id' not in config.keys():
+            raise Exception('device_id is missing from configuration. RemoteTerminalConnection cannot install edge!')
 
         self.remote_terminal = RemoteTerminal(
             api_key=config['api_key'],
-            url=RemoteTerminal.get_wss_address(config['api_gw'], config.get('internal_id'))
+            url=RemoteTerminal.get_wss_address(config['api_gw'], config.get('device_id'))
         )
 
     def connect(self, timeout=10):
