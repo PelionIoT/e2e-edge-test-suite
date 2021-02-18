@@ -32,8 +32,6 @@ def tc_config_data(request):
     raise AssertionError('Test configuration is not defined. Use --config_path=<path to define config file>')
 
 
-
-
 @pytest.fixture(scope='session')
 def cloud_api(request):
     """

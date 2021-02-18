@@ -8,7 +8,6 @@ from time import sleep
 
 import pelion_systest_lib.tools as utils
 
-
 log = logging.getLogger(__name__)
 
 

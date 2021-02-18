@@ -3,7 +3,6 @@
 General utility functions for library and test cases
 """
 
-
 import functools
 
 import inspect
@@ -21,9 +20,7 @@ from uuid import uuid4
 
 import boto3
 
-
 log = logging.getLogger(__name__)
-
 
 ANSI_ENG = re.compile(r'\033\[((?:\d|;)*)([a-zA-Z])'.encode())
 
@@ -46,7 +43,6 @@ def load_config(config_path):
             raise AssertionError(error_msg)
 
     return config_data
-
 
 
 def assert_status(response, func, expected_resp, api_url=''):
@@ -138,7 +134,6 @@ def build_random_enrollment_identity():
     return identity
 
 
-
 def create_psk(use_uuid=True, epn_length=32, use_punctuations=False, secret_length=32,
                letter_case='lower', secret_prefix=None):
     """
@@ -204,10 +199,6 @@ def hex_str_to_c_hex_byte_array(hex_string):
     return hex_byte_array
 
 
-
-
-
-
 def strip_escape(string_to_escape):
     """
     Strip escape characters from string.
@@ -224,9 +215,6 @@ def strip_escape(string_to_escape):
         end = match.end()
         string_to_escape = string_to_escape[0:start] + string_to_escape[end:]
     return string_to_escape
-
-
-
 
 
 def retry(func, *args, retry_condition, retry_count=3, delay=5, **kwargs):
@@ -334,8 +322,6 @@ def deprecated(msg):
     return deprecated_deco
 
 
-
-
 def get_from_json(file, key):
     """
     Find and return value of a key in a JSON
@@ -383,10 +369,6 @@ def delete_in_json(file, key):
         json.dump(obj=data, fp=json_file, indent=4)
 
 
-
-
-
-
 def sanitize(text):
     """ Sanitizing output text:
     - Replazing apikey with four stars
@@ -432,4 +414,3 @@ def execute_with_retry(command, assert_text, timeout=10 * 60, delay_in_sec=5, as
         time.sleep(delay_in_sec)
         i = i + 1
         log.info('{}. retry: {}'.format(i, command))
-

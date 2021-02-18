@@ -38,7 +38,3 @@ class LocalConnection(AbstractConnector):
         if not stdout and stderr:
             return stderr
         return stdout
-
-
-
-

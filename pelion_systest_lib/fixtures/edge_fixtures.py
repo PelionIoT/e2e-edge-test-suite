@@ -191,15 +191,6 @@ def edge(kube_config_file_path, tc_config_data):
     edge.release()
 
 
-
-
-
-
-
-
-
-
-
 @pytest.fixture(scope='session')
 def kubectl(edge):  # pylint: disable=unused-argument
     return Kubectl()
@@ -218,7 +209,3 @@ def kaas(kube_config_file_path):
     Configuration.set_default(custom_configuration)
 
     return Kaas(kube_config_file_path)
-
-
-
-

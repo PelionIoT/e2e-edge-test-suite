@@ -25,6 +25,7 @@ def decode_payload(payload):
 def encode_payload(payload):
     return str(b64encode(payload.encode('utf-8')), 'utf-8')
 
+
 log = logging.getLogger(__name__)
 
 
@@ -180,7 +181,6 @@ class PelionCloud:
         """
         log.info('Reboot. Device: {}'.format(device_id))
         self.post_and_wait('/3/0/4', None, device_id, websocket, 200, async_id)
-
 
     @staticmethod
     def wait_registration(device_id, websocket, timeout=300):

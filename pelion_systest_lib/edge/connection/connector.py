@@ -30,7 +30,7 @@ class EdgeConnector(EdgeConfig):
         self.connector = self.get_connector_instance(self.connection_type, tc_config_data)
 
     def get_connector_instance(self, connection_type, tc_config_data):
-        if connection_type == 'cloud': # pylint: disable=no-else-return
+        if connection_type == 'cloud':  # pylint: disable=no-else-return
             return AbstractConnector()
         elif connection_type == 'local':
             return LocalConnection(self, tc_config_data)
@@ -38,7 +38,6 @@ class EdgeConnector(EdgeConfig):
             return RemoteTerminalConnection(tc_config_data)
         else:
             raise AssertionError('Connection type not cloud, local or remote_terminal. Check your configuration file.')
-
 
     def connect_edge(self):
         """
@@ -85,10 +84,3 @@ class EdgeConnector(EdgeConfig):
     @property
     def has_remote_terminal(self):
         return self.tc_config_data.get('has_remote_terminal', True)
-
-
-
-
-
-
-

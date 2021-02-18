@@ -5,15 +5,11 @@ Notification service related pytest fixtures
 
 import logging
 
-
 import pytest
-
 
 from pelion_systest_lib.cloud.websocket_handler import WebsSocketNotificationChannel
 
 log = logging.getLogger(__name__)
-
-
 
 
 @pytest.fixture(scope='function')
@@ -45,12 +41,6 @@ def websocket(cloud_api, new_temp_test_case_developer_api_key, request):
     ws.close()
 
 
-
-
-
-
-
-
 @pytest.fixture(scope='module')
 def websocket_for_module(cloud_api, new_temp_module_developer_api_key):
     """
@@ -59,24 +49,6 @@ def websocket_for_module(cloud_api, new_temp_module_developer_api_key):
     ws = WebsSocketNotificationChannel(cloud_api, new_temp_module_developer_api_key)
     yield ws.handler
     ws.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @pytest.fixture(scope='function')
@@ -99,6 +71,3 @@ def websocket_notification_channel_for_module(cloud_api, temp_access_key):
     ws = WebsSocketNotificationChannel(cloud_api, temp_access_key())
     yield ws.handler
     ws.close()
-
-
-

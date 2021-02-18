@@ -157,7 +157,7 @@ class WebSocketHandler:
                     # If found, append item to item_list. If as many items are found as are expected, return list.
                     if [expect_item for expect_item in expected_notifications if
                         item['path'] in expect_item.keys() and base64.b64decode(
-                                item['payload']).decode('utf8') in expect_item.values()]:
+                            item['payload']).decode('utf8') in expect_item.values()]:
                         item_list.append(item)
                         if len(item_list) == len(expected_notifications):
                             return item_list
