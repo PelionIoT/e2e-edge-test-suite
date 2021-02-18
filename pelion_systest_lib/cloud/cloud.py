@@ -15,6 +15,7 @@ from pelion_systest_lib.cloud.libraries.iam import IamAPI
 from pelion_systest_lib.cloud.libraries.rest_api.rest_api import RestAPI
 from pelion_systest_lib.cloud.libraries.statistics import StatisticsAPI
 from pelion_systest_lib.cloud.libraries.update import UpdateAPI
+import logging
 
 
 def decode_payload(payload):
@@ -23,6 +24,8 @@ def decode_payload(payload):
 
 def encode_payload(payload):
     return str(b64encode(payload.encode('utf-8')), 'utf-8')
+
+log = logging.getLogger(__name__)
 
 
 class PelionCloud:
@@ -155,3 +158,41 @@ class PelionCloud:
         Returns gateway logs API class
         """
         return self._gateway_logs
+
+    def reset(self, device_id, channel, async_id=None):
+        """
+        Reset device
+        :param edge_internal_id: Get internal id
+        :param channel: Webhook / callback api
+        :param async_id: Async id if predefined
+        :param
+        """
+        log.info('Factory reset. Device: {}'.format(device_id))
+        self.post_and_wait('/3/0/5', None, device_id, channel, 200, async_id)
+
+    def reboot(self, device_id, websocket, async_id=None):
+        """
+        Reboot device
+        :param device_id: device internal id
+        :param channel: Webhook / callback api
+        :param async_id: Async id if predefined
+        :return:
+        """
+        log.info('Reboot. Device: {}'.format(device_id))
+        self.post_and_wait('/3/0/4', None, device_id, websocket, 200, async_id)
+
+
+    @staticmethod
+    def wait_registration(device_id, websocket, timeout=300):
+        """
+        Wait device registration from given channel
+        :param edge_internal_id: device internal id
+        :param channel: callback / websocket fixture
+        :return:
+        """
+        data = websocket.wait_for_registration(device_id=device_id, timeout=timeout)
+        if data:
+            log.info('Registration notification received from channel for device: {}'.format(data))
+
+        assert data is not False, 'Registration notification not received after ' \
+                                  'reboot by timeout: {}'.format(timeout)

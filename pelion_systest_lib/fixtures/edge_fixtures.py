@@ -13,7 +13,6 @@ from kubernetes.config import load_kube_config
 
 import pelion_systest_lib.tools as utils
 from pelion_systest_lib.cloud.cloud import PelionCloud
-from pelion_systest_lib.cloud.edge_cloud import PelionEdgeCloud
 from pelion_systest_lib.edge.connection.connector import EdgeConnector
 from pelion_systest_lib.edge.kaas import Kaas
 from pelion_systest_lib.edge.kubectl import Kubectl
@@ -197,33 +196,8 @@ def edge(kube_config_file_path, tc_config_data):
 
 
 
-@pytest.fixture(scope='session')
-def edge_connection(edge):
-    # Just to keep backward compatibility
-    yield edge
 
 
-@pytest.fixture(scope='function')
-def check_edge_status(edge):
-    """
-    Check edge status
-    :param edge: Edge connection fixture
-    """
-    if not edge.wait_for_connected():
-        AssertionError('Edge not connected in cloud. Status: {}'.format(edge.read_status_api()))
-
-
-@pytest.fixture(scope='class')
-def edge_internal_id(edge):
-    """
-    Get edge internal id
-    :param edge: Edge connection fixture
-    """
-    internal_id = edge.internal_id
-    yield internal_id
-    if internal_id:
-        with open('internal.id', 'w') as f:
-            f.write(internal_id)
 
 
 @pytest.fixture(scope='session')
@@ -246,9 +220,5 @@ def kaas(kube_config_file_path):
     return Kaas(kube_config_file_path)
 
 
-@pytest.fixture(scope='module')
-def edge_cloud_api(tc_config_data):
-    pelion_edge_cloud = PelionEdgeCloud(tc_config_data)
-    yield pelion_edge_cloud
 
 

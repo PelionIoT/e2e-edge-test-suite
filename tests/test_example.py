@@ -4,10 +4,8 @@ import random
 import pytest
 
 from pelion_systest_lib.cloud import connect_handler
-from pelion_systest_lib.edge.edge_utils import EdgeUtils
 
 log = logging.getLogger(__name__)
-
 
 
 class Resources:
@@ -22,7 +20,6 @@ class TestEdgeAttributes:
     - Registration update check
     - GET, PUT, POST check
     """
-    util = EdgeUtils()
     resource = Resources()
 
     def test(self, tc_config_data):
