@@ -14,17 +14,18 @@ Python 3.5 or later.
 $ git clone https://github.com/PelionIoT/pelion-e2e-python-test-library.git
 $ cd pelion-e2e-python-test-library
 $ python -m venv venv
+$ source venv/bin/activate
 $ pip install --upgrade pip
 $ pip install -r requirements.txt
 
 ```
 
 ## Configure
-- Start edge device
+- Start Edge device
 - Create configuration file based on config_template.json
 - Login Device management portal: https://portal.mbedcloud.com
-- Create access/api key in portal and set value in config file.
-- Set "internal_id" in config file.  Defined as Device id in portal
+    - Create access/api key in portal and set key in config file.
+- Set Edge device id in config file. 
 ```json
 {
   "api_gw"                     : "https://api.eu-west-1.mbedcloud.com" ,
@@ -32,7 +33,7 @@ $ pip install -r requirements.txt
   "connection_type"            : "cloud",
   "edge_k8s_url"               : "https://edge-k8s.eu-west-1.mbedcloud.com",
   "gateways_url"               : "https://gateways.eu-west-1.mbedcloud.com",
-  "internal_id"                : "",
+  "device_id"                  : "",
   "has_remote_terminal"        : true,
   "edge_skip_release"          : true,
   "edge_local_host_port"       : 9101
