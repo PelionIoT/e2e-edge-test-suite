@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{pod_name}}
+spec:
+  automountServiceAccountToken: false
+  hostname: {{pod_name}}
+  nodeName: {{node_name}}
+  containers:
+  - name: client
+    image: alpine:3.9
+    command: ["/bin/sh"]
+    args: ["-c","echo 'hello world'; sleep 6000000"]
