@@ -48,5 +48,9 @@ $ pip install -r requirements.txt
 ## Run test
 
 ```bash
-$ python -m pytest tests/test_example.py --config_path=tests/config_template.json
+$ pytest test_example.py --config_path=config_template.json
+
+Adjust pytest arguments with logs details and generate html report
+$ pytest test_example.py --config_path=config_template.json --log-cli-level=INFO --html=results.html
 ```
+
