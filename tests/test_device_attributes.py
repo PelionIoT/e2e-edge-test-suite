@@ -3,7 +3,7 @@ import pytest
 
 
 log = logging.getLogger(__name__)
-
+log.setLevel(logging.INFO)
 
 @pytest.fixture(scope="module")
 def device_attributes(cloud_api, edge):
@@ -12,9 +12,9 @@ def device_attributes(cloud_api, edge):
 
 
 def test_list_attributes(cloud_api, edge, device_attributes):
-    log.info('Device: {} attributes'.format(edge.device_id))
+    log.info('Device: {} attributes:'.format(edge.device_id))
     for key in device_attributes:
-        log.info('{} : {}'.format(key, device_attributes[key]))
+        log.info('\t{} : {}'.format(key, device_attributes[key]))
 
 
 def test_device_registered(cloud_api, edge, device_attributes):
