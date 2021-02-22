@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 @pytest.fixture(scope="class")
 def pod(edge, kubectl):
-    pod_name = 'test-pod-{}'.format(edge.device_id)
+    pod_name = 'test-pod-{}-{}'.format(edge.device_id, str(uuid.uuid1())[:8])
     pod_yaml_file = load_test_pod_content(pod_name, edge.device_id)
     kubectl.create_pod(pod_yaml_file)
     time.sleep(5)
@@ -26,7 +26,7 @@ def test_node(edge):
         command='kubectl get nodes',
         assert_text=edge.device_id)
 
-    assert edge.device_id in response, 'Device not found from K8S nodes'
+    assert edge.device_id in response, 'Device not found from K8S'
 
 
 def test_pod(pod):
