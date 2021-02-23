@@ -1,9 +1,9 @@
 import logging
 import pytest
 
-
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
+
 
 @pytest.fixture(scope="module")
 def device_attributes(cloud_api, edge):
@@ -19,4 +19,3 @@ def test_list_attributes(cloud_api, edge, device_attributes):
 
 def test_device_registered(cloud_api, edge, device_attributes):
     assert device_attributes['state'] == 'registered'
-

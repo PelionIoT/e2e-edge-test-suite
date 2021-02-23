@@ -44,8 +44,5 @@ def test_get_lifetime(edge, cloud_api, websocket, lifetime):
     # Test response received with 200 OK status
     assert resp and resp['status'] == 200, 'Unable to read device resource value'
     # Test payload is expected and decoded correctly
-    assert resp.get('decoded_payload') == lifetime['payload']
-    assert resp.get('payload') == lifetime['payload-b64']
-
-
-
+    assert resp.get('decoded_payload') == lifetime['payload'], 'Resource value is not expected or decoding error.'
+    assert resp.get('payload') == lifetime['payload-b64'], 'Resource value is not expected.'

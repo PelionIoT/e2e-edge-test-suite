@@ -1,5 +1,4 @@
 import logging
-import os
 import uuid
 
 import pytest
@@ -26,9 +25,6 @@ def pytest_addoption(parser):
     :return:
     """
     parser.addoption('--config_path', action='store', help='Test case config json')
-    parser.addoption('--api_gw', action='store', help='API gateway url')
-    parser.addoption('--edge_k8s_url', action='store', help='Edge k8s url')
-    parser.addoption('--gateways_url', action='store', help='Gateways url')
     parser.addoption('--show_api_key', action='store', help='true/false to show api keys on logs')
     parser.addoption('--no_summary', action='store_true', help='Does not collect the test result summary')
 
@@ -46,12 +42,8 @@ def pytest_report_teststatus(report, config):
                    'when': report.when,
                    'duration': report.duration,
                    'error_msg': error_rep,
-                   'jenkins_build_id': os.environ.get('BUILD_ID', ''),
-                   'jenkins_job_url': os.environ.get('JOB_URL', ''),
                    'uuid': str(uuid.uuid4()),
                    'exitcode': '',
-                   'jenkins_job_name': os.environ.get('JOB_NAME', ''),
-                   'cloud_client_rel': os.environ.get('MBED_CLOUD_CLIENT_RC_REL', ''),
                    'cloud_environment': '',
                    'test_category': ''}
     if report.outcome == 'failed':
@@ -71,16 +63,6 @@ def pytest_report_teststatus(report, config):
         if report.when == 'call':
             if not config.getoption('no_summary') or config.getoption('td_results'):
                 pytest.global_test_results.append(test_result)
-
-    if pytest.global_allocated_raas_resources and config.getoption('td_results'):
-        raas_result = {'uuid': test_result['uuid'],
-                       'raas_resources': pytest.global_allocated_raas_resources,
-                       'test_name': test_result['test_name']}
-        if report.outcome == 'failed' and report.when in ('setup', 'call'):
-            pytest.global_raas_usage.append(raas_result)
-
-        if report.outcome == 'passed' and report.when == 'call':
-            pytest.global_raas_usage.append(raas_result)
 
 
 def pytest_sessionfinish(session, exitstatus):
