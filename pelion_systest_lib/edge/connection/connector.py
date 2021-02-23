@@ -5,12 +5,11 @@ Configuration values:
 
 """
 import logging
-from time import time, sleep
 
 from pelion_systest_lib.edge.connection.abstract_connector import AbstractConnector
-from pelion_systest_lib.edge.connection.edge_config import EdgeConfig
 from pelion_systest_lib.edge.connection.connections.local import LocalConnection
 from pelion_systest_lib.edge.connection.connections.remote_terminal import RemoteTerminalConnection
+from pelion_systest_lib.edge.connection.edge_config import EdgeConfig
 from pelion_systest_lib.edge.remote_terminal import RemoteTerminal
 
 log = logging.getLogger(__name__)

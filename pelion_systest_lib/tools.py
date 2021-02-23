@@ -18,8 +18,6 @@ import time
 from time import sleep
 from uuid import uuid4
 
-import boto3
-
 log = logging.getLogger(__name__)
 
 ANSI_ENG = re.compile(r'\033\[((?:\d|;)*)([a-zA-Z])'.encode())

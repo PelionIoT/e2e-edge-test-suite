@@ -4,9 +4,7 @@ Notification service related pytest fixtures
 """
 
 import logging
-
 import pytest
-
 from pelion_systest_lib.cloud.websocket_handler import WebsSocketNotificationChannel
 
 log = logging.getLogger(__name__)

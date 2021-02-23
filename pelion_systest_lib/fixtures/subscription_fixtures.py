@@ -3,8 +3,6 @@ Subscriptions related pytest fixtures
 """
 
 import logging
-from time import sleep
-
 import pytest
 
 
