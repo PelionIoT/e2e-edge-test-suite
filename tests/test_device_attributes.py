@@ -7,8 +7,7 @@ log.setLevel(logging.INFO)
 
 @pytest.fixture(scope="module")
 def device_attributes(cloud_api, edge):
-    response = cloud_api.device_directory.get_device(edge.device_id, expected_status_code=200).json()
-    yield response
+    yield cloud_api.device_directory.get_device(edge.device_id, expected_status_code=200).json()
 
 
 def test_list_attributes(cloud_api, edge, device_attributes):
