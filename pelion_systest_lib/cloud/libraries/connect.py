@@ -87,104 +87,6 @@ class ConnectAPI:
                                 expected_status_code=expected_status_code)
         return r
 
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use the "send_async_request_to_device" instead')
-    def get_device_resources(self, device_id, resource_path='', api_key=None, expected_status_code=None):
-        """
-        Get device resources
-        :param device_id: Device id
-        :param resource_path: Resource path
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: GET /v2/endpoints/{device_id}/{resourcePath} response
-        """
-        api_url = '/{}/endpoints/{}/{}'.format(self.api_version, device_id, resource_path)
-
-        r = self.cloud_api.get(api_url, api_key, expected_status_code=expected_status_code)
-        return r
-
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use the "send_async_request_to_device" instead')
-    def create_device_resource(self, device_id, resource_path, resource_data, content_type='text/plain',
-                               api_key=None, expected_status_code=None):
-        """
-        Create device resources
-        :param device_id: Device id
-        :param resource_path: Resource path
-        :param resource_data: Resource data value
-        :param content_type: Payload content-type, check allowed options from the cloud documentation
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: POST /v2/endpoints/{device_id}/{resourcePath} response
-        """
-        api_url = '/{}/endpoints/{}/{}'.format(self.api_version, device_id, resource_path)
-
-        r = self.cloud_api.post(api_url, api_key, resource_data, content_type,
-                                expected_status_code=expected_status_code)
-        return r
-
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use the "send_async_request_to_device" instead')
-    def set_device_resource(self, device_id, resource_path, resource_data, content_type='text/plain',
-                            api_key=None, expected_status_code=None):
-        """
-        Set device resources
-        :param device_id: Device id
-        :param resource_path: Resource path
-        :param resource_data: Resource data value
-        :param content_type: Payload content-type, check allowed options from the cloud documentation
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: PUT /v2/endpoints/{device_id}/{resourcePath} response
-        """
-        api_url = '/{}/endpoints/{}/{}'.format(self.api_version, device_id, resource_path)
-
-        r = self.cloud_api.put(api_url, api_key, resource_data, content_type, expected_status_code=expected_status_code)
-        return r
-
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use the "send_async_request_to_device" instead')
-    def remove_device_resource(self, device_id, resource_path, api_key=None, expected_status_code=None):
-        """
-        Remove device resources
-        :param device_id: Device id
-        :param resource_path: Resource path
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: DELETE /v2/endpoints/{device_id}/{resourcePath} response
-        """
-        api_url = '/{}/endpoints/{}/{}'.format(self.api_version, device_id, resource_path)
-
-        r = self.cloud_api.delete(api_url, api_key, expected_status_code=expected_status_code)
-        return r
-
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use other callback methods for notifications instead')
-    def get_notifications_long_poll(self, api_key=None, expected_status_code=None):
-        """
-        Get notifications using Long Poll
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: GET /v2/notification/pull response
-        """
-        api_url = '/{}/notification/pull'.format(self.api_version)
-
-        r = self.cloud_api.get(api_url, api_key, expected_status_code=expected_status_code)
-        return r
-
-    @utils.deprecated('This function will be removed from the library - '
-                      'please use other callback methods for notifications instead')
-    def delete_notification_long_poll(self, api_key=None, expected_status_code=None):
-        """
-        Delete notification Long Poll channel
-        :param api_key: Authentication key
-        :param expected_status_code: Asserts the result in the function
-        :return: DELETE /v2/notification/pull response
-        """
-        api_url = '/{}/notification/pull'.format(self.api_version)
-
-        r = self.cloud_api.delete(api_url, api_key, expected_status_code=expected_status_code)
-        return r
 
     def get_pre_subscriptions(self, api_key=None, expected_status_code=None):
         """
@@ -226,8 +128,7 @@ class ConnectAPI:
     def get_endpoints_subscriptions(self, device_id, api_key=None, expected_status_code=None):
         """
         Get endpoint's subscriptions
-        :param device_id: Device id
-        :param api_key: Authentication key
+        :param device_id: Device id       :param api_key: Authentication key
         :param expected_status_code: Asserts the result in the function
         :return: GET /v2/subscriptions/{device_id} response
         """
