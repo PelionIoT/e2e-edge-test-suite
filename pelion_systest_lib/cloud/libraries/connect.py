@@ -87,7 +87,6 @@ class ConnectAPI:
                                 expected_status_code=expected_status_code)
         return r
 
-
     def get_pre_subscriptions(self, api_key=None, expected_status_code=None):
         """
         Get pre-subscriptions

@@ -1,7 +1,6 @@
 # pylint: disable=no-member,bare-except
 import asyncio
 import logging
-
 import aiohttp
 
 log = logging.getLogger(__name__)
