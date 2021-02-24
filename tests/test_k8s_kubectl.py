@@ -20,6 +20,7 @@ import logging
 import time
 import uuid
 import pytest
+import os
 
 from pelion_systest_lib.edge.kaas import Kaas
 from pelion_systest_lib.tools import execute_with_retry
@@ -37,6 +38,9 @@ def pod(edge, kubectl):
     yield pod_name
 
     kubectl.delete_pod(pod_name)
+    # remove temporary file
+    if os.path.exists(pod_yaml_file):
+        os.remove(pod_yaml_file)
 
 
 def test_node(edge):
@@ -49,14 +53,14 @@ def test_node(edge):
 
 def test_pod(pod):
     response = execute_with_retry(
-        command='kubectl get pods',
+        command='kubectl get pods {}'.format(pod),
         assert_text=pod)
 
-    log.info(response)
+    assert 'Error' not in response, 'Pod not found or error message received from server when starting pod'
 
 
 def load_test_pod_content(pod_name, device_id):
-    pod_yaml_file = 'test_k8s_kubectl.yaml'
+    pod_yaml_file = 'temporary_k8s_kubectl.yaml'
     with open(pod_yaml_file, 'w') as file:
         content = Kaas.get_yaml_template(
             data_folder='data',
