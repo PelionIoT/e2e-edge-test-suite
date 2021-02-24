@@ -31,10 +31,7 @@ pytest_plugins = [
 
 log = logging.getLogger(__name__)
 
-pytest.global_treasure_data = None
-pytest.global_allocated_raas_resources = []
 pytest.global_test_results = []
-pytest.global_raas_usage = []
 
 
 def pytest_addoption(parser):
@@ -80,7 +77,7 @@ def pytest_report_teststatus(report, config):
             pytest.global_test_results.append(test_result)
     else:
         if report.when == 'call':
-            if not config.getoption('no_summary') or config.getoption('td_results'):
+            if not config.getoption('no_summary'):
                 pytest.global_test_results.append(test_result)
 
 
