@@ -25,11 +25,11 @@ $ pip install -r requirements.txt
 
 ## Configure
 
-- Start Edge device
-- Create configuration file based on config_template.json
-- Login Device management portal: https://portal.mbedcloud.com
-    - Create access/api key in portal and set key in config file.
-- Set Edge device id in config file.
+* Start Edge device
+* Create configuration file based on config_template.json
+* Login Device management portal: https://portal.mbedcloud.com
+    --> Create access/api key in portal and set key in configuration file.
+* Set Edge device id in configuration file.
 
 ```json
 {
@@ -39,18 +39,24 @@ $ pip install -r requirements.txt
   "edge_k8s_url": "https://edge-k8s.eu-west-1.mbedcloud.com",
   "gateways_url": "https://gateways.eu-west-1.mbedcloud.com",
   "device_id": "",
-  "has_remote_terminal": true,
+  "has_remote_terminal": true
 }
 ```
 
 ## Run test
+Examples how to run tests with pytest:
 
+* Run one test file
 ```bash
-$ pytest test_example.py --config_path=config_template.json
-Adjust pytest arguments with logs details and generate html report:
-$ pytest test_example.py --config_path=config_template.json --log-cli-level=INFO --html=results.html
-Run all tests:
-$pytest  --config_path=config.json
+$ pytest test_lwm2m_resources.py --config_path=config_template.json
+```
+* Add loglevel and html report
+```bash
+$ pytest test_lwm2m_resources --config_path=config_template.json --log-cli-level=INFO --html=results.html
+```
+* Run all tests
+```bash
+$ pytest  --config_path=config.json
 
 ```
 
