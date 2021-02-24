@@ -7,7 +7,8 @@ pytest_plugins = [
     'pelion_systest_lib.fixtures.edge_fixtures',
     'pelion_systest_lib.fixtures.general_fixtures',
     'pelion_systest_lib.fixtures.iam_fixtures',
-    'pelion_systest_lib.fixtures.notification_fixtures'
+    'pelion_systest_lib.fixtures.notification_fixtures',
+    'pelion_systest_lib.fixtures.subscription_fixtures'
 ]
 
 log = logging.getLogger(__name__)
