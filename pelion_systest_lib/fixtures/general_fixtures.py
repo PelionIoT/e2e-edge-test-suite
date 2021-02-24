@@ -72,21 +72,6 @@ def cloud_api(request):
     yield pelion_cloud
 
 
-@pytest.fixture(scope='module')
-def global_data():
-    """
-    Fixture for using global data (variables) inside test module.
-    If you need global data variable, add it to Data class
-    :return: Data class to be used inside module
-    """
-
-    class Data:
-        def __init__(self):
-            self.billing_wait = True
-
-    return Data()
-
-
 @pytest.fixture(scope='function')
 def rest_api():
     """
