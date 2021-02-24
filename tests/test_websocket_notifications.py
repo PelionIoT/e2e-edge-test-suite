@@ -1,5 +1,8 @@
+import pytest
 import logging
+import base64
 from pelion_systest_lib.cloud import connect_handler
+import time
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -43,3 +46,30 @@ def test_registration_notification(edge, cloud_api, websocket):
     data = websocket.wait_for_registration(edge.device_id, wait_time)
 
     assert data, 'Registration not received from websocket notification channel'
+
+
+def test_notification_device_cpu_usage(edge, cloud_api, websocket, subscribe_to_resource):
+    cpu_usage = '/3/0/3320'
+    payload = {'method': 'GET', 'uri': cpu_usage}
+
+    # Check device really have that resource before subscribing it.
+    response = connect_handler.send_async_device_and_wait_for_response(cloud_api,
+                                                                       channel_type=websocket,
+                                                                       ep_id=edge.device_id,
+                                                                       apikey=websocket.api_key,
+                                                                       payload=payload, async_id=None,
+                                                                       timeout=60)
+    if response['status'] == 404:
+        pytest.skip('Device does not have specific resource: {}.'.format(cpu_usage))
+
+    subscribe_to_resource(cpu_usage)
+    time.sleep(10)
+
+    payload = None
+    data = websocket.wait_for_resource_notifications(edge.device_id, cpu_usage, timeout=10 * 60, delay=5)
+
+    if data:
+        payload = str(base64.b64decode(data['payload']))
+        log.info('Current cpu usage: {} %'.format(payload))
+
+    assert payload, 'Unable to get notifications from websocket channel'
