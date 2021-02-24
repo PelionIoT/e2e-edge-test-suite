@@ -194,6 +194,29 @@ class WebSocketHandler:
                 timeout)
         return False
 
+    def wait_for_resource_notifications(self, device_id, resource_path, timeout=30, assert_errors=False, delay=1):
+        """
+        Wait for given device id + resource path + expected value to appear in WebSocket
+
+        :param device_id: string
+        :param resource_path: string
+        :param timeout: int
+        :param assert_errors: boolean for user if to fail test case in case of expected notification not received
+        :param delay: Delay to check notification
+        :return: dict or fail the test case if confirm_resp=True
+        """
+        wait = 0
+        while wait <= timeout:
+            for item in self.ws.events['notifications']:
+                if item['ep'] == device_id and item['path'] == resource_path:
+                    return item
+            sleep(delay)
+            wait += delay
+        if assert_errors:
+            assert False, 'Failed to receive notification from device on websocket channel by timeout: {}'.format(
+                timeout)
+        return False
+
     def wait_for_async_response(self, async_response_id, timeout=30, assert_errors=False):
         """
         Wait for given async-response to appear in WebSocket data
