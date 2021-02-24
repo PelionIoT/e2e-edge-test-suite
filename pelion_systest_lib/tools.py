@@ -9,18 +9,14 @@ import inspect
 import json
 import logging
 import os
-import random
 import re
-
-import string
 import subprocess
 import time
+import string
+import random
 from time import sleep
-from uuid import uuid4
 
 log = logging.getLogger(__name__)
-
-ANSI_ENG = re.compile(r'\033\[((?:\d|;)*)([a-zA-Z])'.encode())
 
 
 def load_config(config_path):
@@ -41,6 +37,22 @@ def load_config(config_path):
             raise AssertionError(error_msg)
 
     return config_data
+
+
+def build_random_string(str_length, use_digits=False, use_punctuations=False):
+    """
+    Create random string
+    :param str_length: String length
+    :param use_digits: Takes string.digits as well
+    :param use_punctuations: Takes string.punctuation
+    :return: Random string
+    """
+    letters = string.ascii_letters
+    if use_digits:
+        letters = letters + string.digits
+    if use_punctuations:
+        letters = letters + string.punctuation.replace(" ", "").replace("\\", "").replace("\"", "").replace("\'", "")
+    return ''.join(random.choice(letters) for _ in range(str_length))
 
 
 def assert_status(response, func, expected_resp, api_url=''):
@@ -101,118 +113,6 @@ def create_curl_command(authorization, payload, command, url, curl_options, show
         cc = 'curl {} -X {} \'{}\' {}'.format(headers, command.upper(), url, curl_options)
 
     return cc
-
-
-def build_random_string(str_length, use_digits=False, use_punctuations=False):
-    r"""
-    Create random string
-    :param str_length: String length
-    :param use_digits: Takes string.digits as well
-    :param use_punctuations: Takes string.punctuation without "\, ", '"
-    :return: Random string
-    """
-    letters = string.ascii_letters
-    if use_digits:
-        letters = letters + string.digits
-    if use_punctuations:
-        letters = letters + string.punctuation.replace(" ", "").replace("\\", "").replace("\"", "").replace("\'", "")
-    return ''.join(random.choice(letters) for _ in range(str_length))
-
-
-def build_random_enrollment_identity():
-    """
-    Create random identity for enrollment
-    :return: Identity string
-    """
-    identity = 'A-35'
-    for _ in range(31):
-        identity += ':'
-        identity += ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(2))
-
-    return identity
-
-
-def create_psk(use_uuid=True, epn_length=32, use_punctuations=False, secret_length=32,
-               letter_case='lower', secret_prefix=None):
-    """
-    Create a unique PSK
-    :use_uuid: Use uuid to create a PSK
-    :epn_length: endpoint_name length as ASCII characters
-    :use_punctuations: Use punctuation characters in endpoint_name
-    :secret_length: secret_hex length as hex digits
-    :letter_case: Use upper/lower/mixed case letters in secret_hex
-    :secret_prefix: secret_hex prefix as string
-    :returns: A dictionary {"endpoint_name": <ascii string>, "secret_hex": <hex string>}
-    """
-    if use_uuid:
-        psk = {
-            'endpoint_name': uuid4().hex,
-            'secret_hex': uuid4().hex
-        }
-    else:
-        endpoint_name = build_random_string(epn_length, use_punctuations=use_punctuations)
-        secret_as_hex = build_random_string(secret_length, use_punctuations=use_punctuations)
-
-        if letter_case == 'lower':
-            secret_as_hex = secret_as_hex.lower()
-        elif letter_case == 'upper':
-            secret_as_hex = secret_as_hex.upper()
-        else:
-            pass
-        if secret_prefix is not None:
-            secret_as_hex = secret_prefix + secret_as_hex
-        psk = {
-            'endpoint_name': endpoint_name,
-            'secret_hex': secret_as_hex
-        }
-    return psk
-
-
-def ascii_str_to_c_hex_byte_array(ascii_string):
-    """
-    Convert an ASCII string to a C hex byte array
-    :string: A string
-    :returns: C hex byte array as a string
-    """
-    hex_byte_array = ''
-    for char in ascii_string:
-        hex_byte_array = hex_byte_array + hex(ord(char)) + ', '
-    # delete last ", "
-    hex_byte_array = hex_byte_array[:-2]
-    return hex_byte_array
-
-
-def hex_str_to_c_hex_byte_array(hex_string):
-    """
-    Convert an hex string to a C hex byte array
-    :string: A hex string
-    :returns: C hex byte array as a string
-    """
-    hex_byte_array = ''
-    bytearr = bytearray.fromhex(hex_string)
-    for byte in bytearr:
-        hex_byte_array = hex_byte_array + hex(byte) + ', '
-    # delete last ", "
-    hex_byte_array = hex_byte_array[:-2]
-    return hex_byte_array
-
-
-def strip_escape(string_to_escape):
-    """
-    Strip escape characters from string.
-    :param string_to_escape: string to work on
-    :return: stripped string
-    """
-
-    matches = []
-    for match in ANSI_ENG.finditer(string_to_escape):
-        matches.append(match)
-    matches.reverse()
-    for match in matches:
-        start = match.start()
-        end = match.end()
-        string_to_escape = string_to_escape[0:start] + string_to_escape[end:]
-    return string_to_escape
 
 
 def retry(func, *args, retry_condition, retry_count=3, delay=5, **kwargs):
@@ -320,53 +220,6 @@ def deprecated(msg):
     return deprecated_deco
 
 
-def get_from_json(file, key):
-    """
-    Find and return value of a key in a JSON
-
-    :param file: JSON file
-    :param key: Key in JSON
-    :return: Value of a key. None if key is not found
-    """
-    with open(file) as json_file:
-        data = json.load(json_file)
-    try:
-        value = data[key]
-        return value
-    except KeyError:
-        log.debug('{} not found in {}'.format(key, os.path.basename(file)))
-        return None
-
-
-def set_to_json(file, key, value):
-    """
-    Set key & value pair to a JSON
-
-    :param file: JSON file
-    :param key: Key in JSON
-    :param value: Value of the key
-    """
-    with open(file, "r") as json_file:
-        data = json.load(json_file)
-    data[key] = value
-    with open(file, "w") as json_file:
-        json.dump(obj=data, fp=json_file, indent=4)
-
-
-def delete_in_json(file, key):
-    """
-    Delete a key in a JSON
-
-    :param file: JSON file
-    :param key: Key in JSON
-    """
-    with open(file, "r") as json_file:
-        data = json.load(json_file)
-    del data[key]
-    with open(file, "w") as json_file:
-        json.dump(obj=data, fp=json_file, indent=4)
-
-
 def sanitize(text):
     """ Sanitizing output text:
     - Replazing apikey with four stars
@@ -398,7 +251,7 @@ def execute_with_retry(command, assert_text, timeout=10 * 60, delay_in_sec=5, as
     while True:
         try:
             response = execute_local_command(command)
-        except:
+        except:  # pylint: disable=bare-except
             response = ''
 
         if assert_text in response:
