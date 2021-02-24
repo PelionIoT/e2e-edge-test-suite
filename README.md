@@ -40,8 +40,6 @@ $ pip install -r requirements.txt
   "gateways_url": "https://gateways.eu-west-1.mbedcloud.com",
   "device_id": "",
   "has_remote_terminal": true,
-  "edge_skip_release": true,
-  "edge_local_host_port": 9101
 }
 ```
 
@@ -49,8 +47,10 @@ $ pip install -r requirements.txt
 
 ```bash
 $ pytest test_example.py --config_path=config_template.json
-
-Adjust pytest arguments with logs details and generate html report
+Adjust pytest arguments with logs details and generate html report:
 $ pytest test_example.py --config_path=config_template.json --log-cli-level=INFO --html=results.html
+Run all tests:
+$pytest  --config_path=config.json
+
 ```
 
