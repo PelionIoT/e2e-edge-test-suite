@@ -5,7 +5,7 @@ the [pytest test framework](https://docs.pytest.org/en/latest/).
 
 ## Prerequisites
 
-Python 3.5 or later.
+Python 3.6 or later.
 
 ## Setup
 
