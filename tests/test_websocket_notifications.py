@@ -43,7 +43,7 @@ def test_registration_update_notification(edge, cloud_api, websocket):
     # check registration update from websocket notification channel
     data = websocket.wait_for_registration_updates(edge.device_id, wait_time)
 
-    assert data, 'Registration update received from websocket notification channel'
+    assert data, 'Registration update not received from websocket notification channel'
 
 
 def test_registration_notification(edge, cloud_api, websocket):
