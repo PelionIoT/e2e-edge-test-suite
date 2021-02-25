@@ -39,20 +39,22 @@ def lifetime():
 def test_put_lifetime(edge, cloud_api, websocket, lifetime):
     log.info('Update device: {}, lifetime resource: {} to seconds.'.format(edge.device_id, lifetime))
 
-    payload = {'method': 'PUT', 'uri': '/1/0/1', 'payload-b64': lifetime['payload-b64']}
+    resource = '/1/0/1'
+    payload = {'method': 'PUT', 'uri': resource, 'payload-b64': lifetime['payload-b64']}
     resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                    channel_type=websocket,
                                                                    ep_id=edge.device_id,
                                                                    apikey=websocket.api_key,
                                                                    payload=payload, async_id=None)
     # Test response received with 200 OK status
-    assert resp and resp['status'] == 200, 'Unable to update device resource value'
+    assert resp and resp['status'] == 200, 'Unable to update device resource: {} value'.format(resource)
 
 
 def test_get_lifetime(edge, cloud_api, websocket, lifetime):
     log.info('Get Edge lifetime value. {}'.format(edge.device_id))
 
-    payload = {'method': 'GET', 'uri': '/1/0/1'}
+    resource = '/1/0/1'
+    payload = {'method': 'GET', 'uri': resource}
     resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                    channel_type=websocket,
                                                                    ep_id=edge.device_id,
@@ -60,7 +62,8 @@ def test_get_lifetime(edge, cloud_api, websocket, lifetime):
                                                                    payload=payload, async_id=None)
 
     # Test response received with 200 OK status
-    assert resp and resp['status'] == 200, 'Unable to read device resource value'
+    assert resp and resp['status'] == 200, 'Unable to read device resource: {} value'.format(resource)
     # Test payload is expected and decoded correctly
-    assert resp.get('decoded_payload') == lifetime['payload'], 'Resource value is not expected or decoding error.'
-    assert resp.get('payload') == lifetime['payload-b64'], 'Resource value is not expected.'
+    assert resp.get('decoded_payload') == lifetime['payload'], 'Resource {}value is not expected or ' \
+                                                               'decoding error.'.format(resource)
+    assert resp.get('payload') == lifetime['payload-b64'], 'Resource {} value is not expected.'.format(resource)
