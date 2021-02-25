@@ -42,4 +42,3 @@ def pytest_addoption(parser):
     """
     parser.addoption('--config_path', action='store', help='Test case config json')
     parser.addoption('--show_api_key', action='store', help='true/false to show api keys on logs')
-    parser.addoption('--no_summary', action='store_true', help='Does not collect the test result summary')
