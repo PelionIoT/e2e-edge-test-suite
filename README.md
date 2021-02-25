@@ -14,12 +14,12 @@ Python 3.6 or later.
 - Install requirements
 
 ```bash
-$ git clone https://github.com/PelionIoT/pelion-e2e-python-test-library.git
-$ cd pelion-e2e-python-test-library
-$ python -m venv venv
-$ source venv/bin/activate
-$ pip install --upgrade pip
-$ pip install -r requirements.txt
+git clone https://github.com/PelionIoT/pelion-e2e-python-test-library.git
+cd pelion-e2e-python-test-library
+python -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 
 ```
 
@@ -48,15 +48,15 @@ Examples how to run tests with pytest:
 
 * Run one test file
 ```bash
-$ pytest test_lwm2m_resources.py --config_path=config_template.json
+pytest test_lwm2m_resources.py --config_path=config_template.json
 ```
 * Add loglevel and html report
 ```bash
-$ pytest test_lwm2m_resources --config_path=config_template.json --log-cli-level=INFO --html=results.html
+pytest test_lwm2m_resources --config_path=config_template.json --log-cli-level=INFO --html=results.html
 ```
 * Run all tests
 ```bash
-$ pytest  --config_path=config.json
+pytest  --config_path=config.json
 
 ```
 
