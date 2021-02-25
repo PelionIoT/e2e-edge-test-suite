@@ -16,6 +16,13 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# This test file test(s) use Pelion device management device directory API's
+# to get device information e.g. device attributes like registration status.
+#
+# More details about device-directory API's:
+# https://developer.pelion.com/docs/device-management-api/device-directory/
+# ----------------------------------------------------------------------------
 import logging
 import pytest
 

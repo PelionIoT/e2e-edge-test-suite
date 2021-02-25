@@ -16,6 +16,17 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# This test file tests use The Kubernetes command-line tool, kubectl,
+# to run commands against Kubernetes clusters.
+#
+# Tests will check that node can be found from K8S and simple pod creation
+# is successful.
+#
+# Edge k8s must be enabled in your Pelion account to run these test
+# successfully.
+# ----------------------------------------------------------------------------
+
 import logging
 import time
 import uuid
