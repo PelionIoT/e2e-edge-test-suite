@@ -6,12 +6,15 @@ the [pytest test framework](https://docs.pytest.org/en/latest/).
 ## Prerequisites
 
 Python 3.6 or later.
-
+* Install pip
+```bash
+sudo apt install python3-pip
+```
 ## Setup
 
-- Clone repository
-- Create virtual environment
-- Install requirements
+* Clone repository
+* Create virtual environment
+* Install requirements
 
 ```bash
 git clone https://github.com/PelionIoT/pelion-e2e-python-test-library.git
@@ -44,19 +47,12 @@ pip install -r requirements.txt
 ```
 
 ## Run test
-Examples how to run tests with pytest:
 
-* Run one test file
-```bash
-pytest test_lwm2m_resources.py --config_path=config_template.json
-```
-* Add loglevel and html report
-```bash
-pytest test_lwm2m_resources --config_path=config_template.json --log-cli-level=INFO --html=results.html
-```
 * Run all tests
 ```bash
-pytest  --config_path=config.json
+pytest  --config_path=config.json  --html=results.html
 
 ```
+Pytest getting started documentation:
+* https://docs.pytest.org/en/stable/getting-started.html?highlight=running%20pytest
 
