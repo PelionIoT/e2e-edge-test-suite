@@ -23,6 +23,7 @@ import pytest
 import os
 
 from pelion_systest_lib.edge.kaas import Kaas
+from pelion_systest_lib.edge.kubectl import Kubectl
 from pelion_systest_lib.tools import execute_with_retry
 
 log = logging.getLogger(__name__)
@@ -57,6 +58,16 @@ def test_pod(pod):
         assert_text=pod)
 
     assert 'Error' not in response, 'Pod not found or error message received from server when starting pod'
+
+
+def test_pod_state(pod):
+    for i in range(10):
+        response = Kubectl.get_pod_details(pod)
+        if response['STATUS'] == 'Running':
+            break
+        time.sleep(2)
+
+    assert response['STATUS'] == 'Running', 'Pod not in running state'
 
 
 def load_test_pod_content(pod_name, device_id):

@@ -112,6 +112,26 @@ class Kubectl:
         return execute_local_command('kubectl get pods {}'.format(pod))
 
     @staticmethod
+    def get_pod_details(pod):
+        pod_details = {'NAME':None,
+                       'READY': None,
+                       'STATUS': None,
+                       'RESTARTS': None,
+                       'AGE': None
+                       }
+
+        response = execute_local_command('kubectl get pods {}'.format(pod)).split()
+
+        if len(response) == 10:
+            pod_details['NAME'] = response[5]
+            pod_details['READY'] = response[6]
+            pod_details['STATUS'] = response[7]
+            pod_details['RESTARTS'] = response[8]
+            pod_details['AGE'] = response[9]
+
+        return pod_details
+
+    @staticmethod
     def delete_pod(pod_name):
         return execute_local_command('kubectl delete pods {}  --force --grace-period=0'.format(pod_name))
 
