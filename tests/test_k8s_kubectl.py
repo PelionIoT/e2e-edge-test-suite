@@ -72,7 +72,7 @@ def test_pod(pod):
 
 
 def test_pod_state(pod):
-    for i in range(10):
+    for i in range(60):
         response = Kubectl.get_pod_details(pod)
         if response['STATUS'] == 'Running':
             break

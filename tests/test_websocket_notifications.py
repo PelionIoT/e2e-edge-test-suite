@@ -16,6 +16,15 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+
+# ----------------------------------------------------------------------------
+# This test file tests use Pelion notifications API:
+# https://developer.pelion.com/docs/device-management-api/notifications/
+# to register websocket notification channel to receive notifications like:
+# registration, registration-update, resource notifications from device.
+# ----------------------------------------------------------------------------
+
+
 import pytest
 import logging
 import base64
@@ -28,16 +37,17 @@ log.setLevel(logging.INFO)
 
 def test_registration_update_notification(edge, cloud_api, websocket):
     wait_time = 60
+    resource = '/1/0/8'
+    payload = {'method': 'POST', 'uri': resource}
 
     log.info('Trigger registration update')
-    payload = {'method': 'POST', 'uri': '/1/0/8'}
     resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                    channel_type=websocket,
                                                                    ep_id=edge.device_id,
                                                                    apikey=websocket.api_key,
                                                                    payload=payload, async_id=None)
 
-    assert resp and resp['status'] == 200, 'Execute (POST) to update resource value is failed'
+    assert resp and resp['status'] == 200, 'Execute (POST) to update resource: {} failed'.format(resource)
 
     log.info('Wait registration update for max {} second(s)'.format(wait_time))
     # check registration update from websocket notification channel
@@ -48,16 +58,17 @@ def test_registration_update_notification(edge, cloud_api, websocket):
 
 def test_registration_notification(edge, cloud_api, websocket):
     wait_time = 3 * 60
+    resource = '/3/0/4'
+    payload = {'method': 'POST', 'uri': resource}
 
     log.info('Rebooting device..')
-    payload = {'method': 'POST', 'uri': '/3/0/4'}
     resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
                                                                    channel_type=websocket,
                                                                    ep_id=edge.device_id,
                                                                    apikey=websocket.api_key,
                                                                    payload=payload, async_id=None)
 
-    assert resp and resp['status'] == 200, 'Execute (POST) to update resource value is failed'
+    assert resp and resp['status'] == 200, 'Execute (POST) to update resource: {} failed'.format(resource)
 
     log.info('Wait registration notification for max {} second(s)..'.format(wait_time))
     # check registration from websocket notification channel
@@ -90,4 +101,4 @@ def test_notification_device_cpu_usage(edge, cloud_api, websocket, subscribe_to_
         payload = str(base64.b64decode(data['payload']))
         log.info('Current cpu usage: {} %'.format(payload))
 
-    assert payload, 'Unable to get notifications from websocket channel'
+    assert payload, 'Unable to get cpu usage:  notifications from websocket channel'.format(cpu_usage)

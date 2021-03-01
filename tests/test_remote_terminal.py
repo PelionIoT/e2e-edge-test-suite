@@ -16,6 +16,16 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# This test file test(s) are testing that device remote terminal is functional
+# All edge/gateway devices may not have remote terminal supported.
+# Use configuration file parameter: has_remote_terminal to define if test is
+# part of the set.
+#
+# Information regarding remote terminal
+# https://developer.pelion.com/docs/device-management-edge/2.2/managing/gateway-terminal-service.html
+# ----------------------------------------------------------------------------
+
 import logging
 import pytest
 
@@ -24,7 +34,7 @@ log = logging.getLogger(__name__)
 
 def test_remote_terminal(edge):
     if not edge.has_remote_terminal:
-        pytest.skip('Skipping because build don\'t have remote terminal')
+        pytest.skip('Skipping because device don\'t have remote terminal supported.')
 
     response = None
     try:

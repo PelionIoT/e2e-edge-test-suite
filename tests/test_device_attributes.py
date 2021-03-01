@@ -31,7 +31,11 @@ log = logging.getLogger(__name__)
 
 @pytest.fixture(scope="module")
 def device_attributes(cloud_api, edge):
-    yield cloud_api.device_directory.get_device(edge.device_id, expected_status_code=200).json()
+    attributes = cloud_api.device_directory.get_device(edge.device_id, expected_status_code=200).json()
+    for key in attributes:
+        log.info('\t{} : {}'.format(key, attributes[key]))
+
+    yield attributes
 
 
 def test_device_registered(cloud_api, edge, device_attributes):

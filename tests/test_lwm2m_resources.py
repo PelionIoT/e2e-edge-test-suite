@@ -16,6 +16,12 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# This test file tests use Pelion connect API:
+# https://developer.pelion.com/docs/device-management-api/connect/
+# to read and write resource values from/to device.
+# ----------------------------------------------------------------------------
+
 import logging
 import pytest
 import random
