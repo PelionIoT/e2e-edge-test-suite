@@ -2,7 +2,6 @@ pytest==6.2.2
 pytest-rerunfailures
 pytest-html==1.22.0
 kubernetes==10.0.1
-pip==21.0.1
 Jinja2
 pyyaml
 requests

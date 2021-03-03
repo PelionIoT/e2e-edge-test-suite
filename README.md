@@ -50,8 +50,7 @@ pip install -r requirements.txt
 
 * Run all tests
 ```bash
-cd tests/
-pytest  --config_path=config.json  --html=results.html
+pytest  --config_path=tests/config.json  --html=results.html
 
 ```
 Pytest getting started documentation:
