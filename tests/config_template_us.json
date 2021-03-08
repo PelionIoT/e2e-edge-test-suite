@@ -1,0 +1,9 @@
+{
+  "api_gw": "https://api.us-east-1.mbedcloud.com",
+  "api_key": "",
+  "device_id": "",
+  "connection_type": "cloud",
+  "edge_k8s_url": "https://edge-k8s.us-east-1.mbedcloud.com",
+  "gateways_url": "https://gateways.us-east-1.mbedcloud.com",
+  "has_remote_terminal": true
+}
