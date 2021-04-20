@@ -55,7 +55,7 @@ def pod(edge, kubectl):
         os.remove(pod_yaml_file)
 
 
-def test_node(edge):
+def test_node(kaas_enabled, edge):
     response = execute_with_retry(
         command='kubectl get nodes',
         assert_text=edge.device_id)
@@ -63,7 +63,7 @@ def test_node(edge):
     assert edge.device_id in response, 'Device not found from K8S'
 
 
-def test_pod(pod):
+def test_pod(kaas_enabled, pod):
     response = execute_with_retry(
         command='kubectl get pods {}'.format(pod),
         assert_text=pod)
@@ -71,7 +71,7 @@ def test_pod(pod):
     assert 'Error' not in response, 'Pod not found or error message received from server when starting pod'
 
 
-def test_pod_state(pod):
+def test_pod_state(kaas_enabled, pod):
     for i in range(60):
         response = Kubectl.get_pod_details(pod)
         if response['STATUS'] == 'Running':
