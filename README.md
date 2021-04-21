@@ -1,4 +1,4 @@
-# Pelion E2E Edge Python Test Suite
+# E2E Edge Test Suite
 
 This is the Python test suite for Pelion Edge end-to-end tests. The library is designed to be used with
 the [pytest test framework](https://docs.pytest.org/en/latest/).
