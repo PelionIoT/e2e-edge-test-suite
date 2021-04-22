@@ -21,8 +21,8 @@ sudo apt install python3-venv
 1. Install requirements.
 
 ```bash
-git clone https://github.com/PelionIoT/pelion-e2e-python-test-library.git
-cd pelion-e2e-python-test-library
+git clone https://github.com/PelionIoT/e2e-edge-test-suite.git
+cd e2e-edge-test-suite
 python -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
@@ -118,7 +118,7 @@ Use the configuration file parameter `has_remote_terminal` to define if this tes
 | ------------------------------- | ------------------------------------------------------| -----------------------------|
 | test_remote_terminal            | Verify communication via remote terminal works.       |                              |
 
-### test_websocket_notificatios.py 
+### test_websocket_notifications.py 
 
 This test file tests uses [Pelion Device Management Notifications API](https://developer.pelion.com/docs/device-management-api/notifications/)
 to register a websocket notification channel to receive notifications such as:
