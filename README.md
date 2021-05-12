@@ -15,10 +15,11 @@ sudo apt install python3-venv
 ```
 ## Setup
 
-1. Clone repository.
-1. Create virtual environment.
-1. Upgrade pip.
-1. Install requirements.
+* Clone repository.
+* Create virtual environment.
+* Upgrade pip.
+* Install requirements.
+
 
 ```bash
 git clone https://github.com/PelionIoT/e2e-edge-test-suite.git
@@ -27,7 +28,13 @@ python -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
-
+```
+* Install kubectl.
+Detailed kubectl installation instructions:
+  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+```
+snap install kubectl --classic
+kubectl version --client
 ```
 
 ## Configure
