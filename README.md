@@ -32,6 +32,8 @@ pip install -r requirements.txt
 * Install kubectl.
 Detailed kubectl installation instructions:
   https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+  
+* Example in case snap package manager is supported.
 ```
 snap install kubectl --classic
 kubectl version --client
@@ -135,7 +137,7 @@ registration, registration update and resource notifications from the device.
 | ----------------------------------------| --------------------------------------------------------------------| -----------------------------|
 | test_registration_update_notification   | Verify the registration update notification is received.            |                              |
 | test_registration_notification          | Verify the registration notification is received after reboot.      |                              |
-| test_notification_device_cpu_usage      | Verify the notification from the device is received.                | Resource: '/3/0/3320'        | 
+| test_notification_device_cpu_usage      | Verify the notification from the device is received.                | Resource: '/3/0/3320', supported by Snap-Pelion-Edge| 
 
 ## License
 
