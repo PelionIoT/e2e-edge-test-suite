@@ -12,6 +12,16 @@ the [pytest test framework](https://docs.pytest.org/en/latest/).
 ```bash
 sudo apt install python3-pip
 sudo apt install python3-venv
+
+```
+* Install kubectl.
+Detailed kubectl installation instructions:
+  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+  
+* Example in case snap package manager is supported.
+```bash
+snap install kubectl --classic
+kubectl version --client
 ```
 ## Setup
 
@@ -29,15 +39,7 @@ source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
-* Install kubectl.
-Detailed kubectl installation instructions:
-  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-  
-* Example in case snap package manager is supported.
-```
-snap install kubectl --classic
-kubectl version --client
-```
+
 
 ## Configure
 
