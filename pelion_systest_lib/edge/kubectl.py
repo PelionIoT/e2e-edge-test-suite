@@ -34,26 +34,39 @@ log = logging.getLogger(__name__)
 
 
 class Kubectl:
-    kube_config_template = """
-    apiVersion: v1
-    clusters:
-    - cluster:
-        server: {{server}}
-      name: edge-k8s
-    contexts:
-    - context:
-        cluster: edge-k8s
-        user: edge-k8s
-        namespace: default
-      name: edge-k8s
-    current-context: edge-k8s
-    kind: Config
-    preferences: {}
-    users:
-    - name: edge-k8s
-      user:
-        token: {{api_key}}
-    """
+    def __init__(self):
+        self.kube_config_template = """
+            apiVersion: v1
+            clusters:
+            - cluster:
+                server: {{server}}
+              name: edge-k8s
+            contexts:
+            - context:
+                cluster: edge-k8s
+                user: edge-k8s
+                namespace: default
+              name: edge-k8s
+            current-context: edge-k8s
+            kind: Config
+            preferences: {}
+            users:
+            - name: edge-k8s
+              user:
+                token: {{api_key}}
+            """
+
+        self.kubectl_installed(False)
+
+    @staticmethod
+    def kubectl_installed(assert_errors=True):
+        response = execute_local_command('kubectl version')
+        if assert_errors:
+            assert 'not found' not in response, 'kubectl not installed..{}'.format(response)
+        else:
+            log.warning('Kubectl is not installed.. {}'.format(response))
+            return False
+        return True
 
     def _write_config(self, folder, server_url, api_key, file_name='temporary_kubernetes_config.yaml'):
         kube_config_path = os.path.join(folder, file_name)
