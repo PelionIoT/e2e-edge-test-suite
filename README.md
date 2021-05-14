@@ -12,13 +12,24 @@ the [pytest test framework](https://docs.pytest.org/en/latest/).
 ```bash
 sudo apt install python3-pip
 sudo apt install python3-venv
+
+```
+* Install kubectl.
+Detailed kubectl installation instructions:
+  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+  
+* Example in case snap package manager is supported.
+```bash
+snap install kubectl --classic
+kubectl version --client
 ```
 ## Setup
 
-1. Clone repository.
-1. Create virtual environment.
-1. Upgrade pip.
-1. Install requirements.
+* Clone repository.
+* Create virtual environment.
+* Upgrade pip.
+* Install requirements.
+
 
 ```bash
 git clone https://github.com/PelionIoT/e2e-edge-test-suite.git
@@ -27,8 +38,8 @@ python -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
-
 ```
+
 
 ## Configure
 
@@ -128,7 +139,7 @@ registration, registration update and resource notifications from the device.
 | ----------------------------------------| --------------------------------------------------------------------| -----------------------------|
 | test_registration_update_notification   | Verify the registration update notification is received.            |                              |
 | test_registration_notification          | Verify the registration notification is received after reboot.      |                              |
-| test_notification_device_cpu_usage      | Verify the notification from the device is received.                | Resource: '/3/0/3320'        | 
+| test_notification_device_cpu_usage      | Verify the notification from the device is received.                | Resource: '/3/0/3320', supported by Snap-Pelion-Edge| 
 
 ## License
 
