@@ -16,7 +16,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-# pylint: disable=bare-except
 """
 General utility functions for library and test cases
 """
@@ -269,7 +268,8 @@ def execute_with_retry(command, assert_text, timeout=10 * 60, delay_in_sec=5, as
     while True:
         try:
             response = execute_local_command(command)
-        except:  # pylint: disable=bare-except
+        except Exception as err:
+            log.warning('Command execution error: {}'.format(err))
             response = ''
 
         if assert_text in response:

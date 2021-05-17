@@ -125,4 +125,3 @@ def kaas_enabled(cloud_api, kubectl):
 
     if not kubectl.kubectl_installed(False):
         pytest.skip('Kubectl not installed. Please check installation notes.')
-

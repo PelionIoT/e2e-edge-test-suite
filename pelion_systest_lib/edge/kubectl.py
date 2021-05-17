@@ -15,11 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ----------------------------------------------------------------------------
-
 """
 Edge KaaS kubectl related helper functions
 """
 
+# pylint: disable=bare-except
 import logging
 import os
 import stat
@@ -75,8 +75,8 @@ class Kubectl:
                 f.write(Template(self.kube_config_template).render(
                     server=server_url,
                     api_key=api_key))
-        except:
-            log.error('Cannot write file: {}'.format(kube_config_path))
+        except Exception as err:
+            log.error('Cannot write file: {}. {}'.format(kube_config_path, err))
             raise
         # Set 400 as pem permissions
         os.chmod(kube_config_path, stat.S_IRUSR)
@@ -86,8 +86,8 @@ class Kubectl:
         try:
             # Try to write configuration in current directory first
             kube_config_path = self._write_config(os.getcwd(), server_url, api_key)
-        except:  # pylint: disable=bare-except
-            log.info('Cannot use current folder for kube config, using temp folder')
+        except Exception as err:
+            log.nfo('Cannot use current folder for kube config, using temp folder')
             # Use also custom name, to make this work more reliable
             kube_config_path = self._write_config(tempfile.gettempdir(), server_url, api_key,
                                                   '{}_kube_config.yaml'.format(build_random_string(5)))
@@ -126,7 +126,7 @@ class Kubectl:
 
     @staticmethod
     def get_pod_details(pod):
-        pod_details = {'NAME':None,
+        pod_details = {'NAME': None,
                        'READY': None,
                        'STATUS': None,
                        'RESTARTS': None,
