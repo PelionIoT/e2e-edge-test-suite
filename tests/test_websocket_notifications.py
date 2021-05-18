@@ -101,4 +101,4 @@ def test_notification_device_cpu_usage(edge, cloud_api, websocket, subscribe_to_
         payload = str(base64.b64decode(data['payload']))
         log.info('Current cpu usage: {} %'.format(payload))
 
-    assert payload, 'Unable to get cpu usage:  notifications from websocket channel'.format(cpu_usage)
+    assert payload, 'Unable to get cpu usage:{}  notifications from websocket channel'.format(cpu_usage)
