@@ -119,7 +119,7 @@ def kaas(kube_config_file_path):
 @pytest.fixture(scope="class")
 def kaas_enabled(cloud_api, kubectl):
     response = cloud_api.rest_api_edge_k8s.get('/api/v1/namespaces/default/pods')
-    if response.status_code is not 200:
+    if response.status_code != 200:
         log.error('Failed to connect KaaS. {}'.format(response.text))
         pytest.skip('Make sure Kubernetes For The Edge (edge_k8s) is enabled in your Pelion device management account')
 
