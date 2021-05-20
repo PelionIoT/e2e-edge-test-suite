@@ -283,3 +283,16 @@ def execute_with_retry(command, assert_text, timeout=10 * 60, delay_in_sec=5, as
         time.sleep(delay_in_sec)
         i = i + 1
         log.info('{}. retry: {}'.format(i, command))
+
+
+def build_random_enrollment_identity():
+    """
+    Create random identity for enrollment
+    :return: Identity string
+    """
+    identity = 'A-35'
+    for _ in range(31):
+        identity += ':'
+        identity += ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(2))
+
+    return identity

@@ -16,7 +16,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-# pylint: disable=bad-continuation
 """
 WebSocket notification channel related helpers.
 """

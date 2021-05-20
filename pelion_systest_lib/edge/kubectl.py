@@ -87,7 +87,7 @@ class Kubectl:
             # Try to write configuration in current directory first
             kube_config_path = self._write_config(os.getcwd(), server_url, api_key)
         except Exception as err:
-            log.nfo('Cannot use current folder for kube config, using temp folder')
+            log.warning('Cannot use current folder for kube config, using temp folder, {}'.format(err))
             # Use also custom name, to make this work more reliable
             kube_config_path = self._write_config(tempfile.gettempdir(), server_url, api_key,
                                                   '{}_kube_config.yaml'.format(build_random_string(5)))
