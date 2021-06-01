@@ -61,12 +61,14 @@ class Kubectl:
     @staticmethod
     def kubectl_installed(assert_errors=True):
         response = execute_local_command('kubectl version')
-        if assert_errors:
-            assert 'not found' not in response, 'kubectl not installed..{}'.format(response)
-        else:
+        installed = 'not found' not in response
+        if assert_errors and installed is False:
+            assert False, 'kubectl not installed..{}'.format(response)
+        elif installed is False:
             log.warning('Kubectl is not installed.. {}'.format(response))
             return False
-        return True
+        else:
+            return True
 
     def _write_config(self, folder, server_url, api_key, file_name='temporary_kubernetes_config.yaml'):
         kube_config_path = os.path.join(folder, file_name)
