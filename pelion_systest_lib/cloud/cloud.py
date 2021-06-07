@@ -21,7 +21,6 @@ This module is for providing Pelion Cloud REST API functionalities
 """
 from base64 import b64decode, b64encode
 
-from pelion_systest_lib.cloud.libraries.admin import AdminAPI
 from pelion_systest_lib.cloud.libraries.billing import BillingAPI
 from pelion_systest_lib.cloud.libraries.config_management import EdgeConfigManagementAPI
 from pelion_systest_lib.cloud.libraries.connect import ConnectAPI
@@ -68,7 +67,6 @@ class PelionCloud:
             # Rest API client for the cloud's edge-k8s subdomain
             self._rest_api_edge_k8s = RestAPI(cloud_config_data, 'edge_k8s_url')
 
-        self._admin = AdminAPI(self.rest_api)
         self._billing = BillingAPI(self.rest_api)
         self._connect = ConnectAPI(self.rest_api)
         self._device_directory = DeviceDirectoryAPI(self.rest_api)
@@ -100,13 +98,6 @@ class PelionCloud:
         Returns RestAPI class edge-k8s subdomain
         """
         return self._rest_api_edge_k8s
-
-    @property
-    def admin(self):
-        """
-        Returns AdminAPI class
-        """
-        return self._admin
 
     @property
     def billing(self):
