@@ -29,6 +29,19 @@ sudo apt install python3-venv
    kubectl version --client
    ```
 
+If `kubectl version --client` gives you an error about Exec format being wrong, you have likely a faulty installation in your machine. Locate the binaries in Linux using `whereis kubectl`. You will likely have two installations of it:
+
+    ```
+    kubectl: /usr/local/bin/kubectl /snap/bin/kubectl
+    ```
+Remove the one in `/usr/local/bin` and create a symbolic link to the one under `/snap/bin`, 
+or add /snap/bin to your `$PATH`.
+
+    ```
+    sudo rm /usr/local/bin/kubectl
+    sudo ln -s /snap/bin/kubectl /usr/local/bin/kubectl
+    ```
+
 ## Set up
 
 1. Clone repository.
