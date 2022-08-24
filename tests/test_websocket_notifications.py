@@ -1,4 +1,5 @@
 # ----------------------------------------------------------------------------
+# Copyright (c) 2022 Izuma Networks
 # Copyright (c) 2020-2021, Pelion and affiliates.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -18,7 +19,7 @@
 
 
 # ----------------------------------------------------------------------------
-# This test file tests use Pelion notifications API:
+# This test file tests use Izuma notifications API:
 # https://developer.pelion.com/docs/device-management-api/notifications/
 # to register websocket notification channel to receive notifications like:
 # registration, registration-update, resource notifications from device.
