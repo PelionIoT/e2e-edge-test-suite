@@ -77,7 +77,7 @@ def cloud_api(request):
 
         # Initialize cloud either with temp account info or info from env variables
         pytest.global_test_env_config = tc_conf
-        cloud = Izumaloud(tc_conf)
+        cloud = IzumaCloud(tc_conf)
 
     else:
         log.info('Using account and api key defined in config json {}'.format(request.config.getoption('config_path')))
