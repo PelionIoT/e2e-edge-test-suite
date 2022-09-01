@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -23,7 +24,7 @@
 # Tests will check that node can be found from K8S and simple pod creation
 # is successful.
 #
-# Edge k8s must be enabled in your Pelion account to run these test
+# Edge k8s must be enabled in your Izuma account to run these test
 # successfully.
 # ----------------------------------------------------------------------------
 
@@ -33,9 +34,9 @@ import uuid
 import pytest
 import os
 
-from pelion_systest_lib.edge.kaas import Kaas
-from pelion_systest_lib.edge.kubectl import Kubectl
-from pelion_systest_lib.tools import execute_with_retry
+from izuma_systest_lib.edge.kaas import Kaas
+from izuma_systest_lib.edge.kubectl import Kubectl
+from izuma_systest_lib.tools import execute_with_retry
 
 log = logging.getLogger(__name__)
 

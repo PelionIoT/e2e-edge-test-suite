@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -17,7 +18,7 @@
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
-# This test file test(s) use Pelion device management device directory API's
+# This test file test(s) use Izuma device management device directory API's
 # to get device information e.g. device attributes like registration status.
 #
 # More details about device-directory API's:

@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #

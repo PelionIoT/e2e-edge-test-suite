@@ -29,7 +29,7 @@
 import pytest
 import logging
 import base64
-from pelion_systest_lib.cloud import connect_handler
+from izuma_systest_lib.cloud import connect_handler
 import time
 
 log = logging.getLogger(__name__)

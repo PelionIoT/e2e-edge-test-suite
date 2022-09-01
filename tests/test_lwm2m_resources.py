@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -17,7 +18,7 @@
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
-# This test file tests use Pelion connect API:
+# This test file tests use Izuma connect API:
 # https://developer.pelion.com/docs/device-management-api/connect/
 # to read and write resource values from/to device.
 # ----------------------------------------------------------------------------
@@ -27,7 +28,7 @@ import pytest
 import random
 import base64
 
-from pelion_systest_lib.cloud import connect_handler
+from izuma_systest_lib.cloud import connect_handler
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

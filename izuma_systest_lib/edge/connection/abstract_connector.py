@@ -17,28 +17,36 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+# pylint: disable=no-self-use
+"""
+Define connector interface
+"""
 import logging
-
-import pytest
-
-pytest_plugins = [
-    'izuma_systest_lib.fixtures.edge_fixtures',
-    'izuma_systest_lib.fixtures.general_fixtures',
-    'izuma_systest_lib.fixtures.iam_fixtures',
-    'izuma_systest_lib.fixtures.notification_fixtures',
-    'izuma_systest_lib.fixtures.subscription_fixtures'
-]
+from abc import abstractmethod
 
 log = logging.getLogger(__name__)
 
-pytest.global_test_results = []
 
+class AbstractConnector:
 
-def pytest_addoption(parser):
-    """
-    Function for pytest to enable own custom commandline arguments
-    :param parser: argparser
-    :return:
-    """
-    parser.addoption('--config_path', action='store', help='Test case config json')
-    parser.addoption('--show_api_key', action='store', help='true/false to show api keys on logs')
+    @abstractmethod
+    def connect(self, timeout=10):
+        """ Connect the computer"""
+
+    def reboot(self):
+        raise Exception('Cannot reboot with this configuration')
+
+    @abstractmethod
+    def release(self):
+        """
+        Release resource
+        """
+
+    @abstractmethod
+    def execute_command(self, command, wait_output=5, timeout=120):
+        """
+        Makes a connection to the device under test
+        :param command: command to be send
+        :param wait_output: delay in seconds how long response will be waited
+        :return: output as string
+        """
