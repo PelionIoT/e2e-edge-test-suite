@@ -19,26 +19,29 @@
 
 import logging
 
-import pytest
-
-pytest_plugins = [
-    'izuma_systest_lib.fixtures.edge_fixtures',
-    'izuma_systest_lib.fixtures.general_fixtures',
-    'izuma_systest_lib.fixtures.iam_fixtures',
-    'izuma_systest_lib.fixtures.notification_fixtures',
-    'izuma_systest_lib.fixtures.subscription_fixtures'
-]
-
 log = logging.getLogger(__name__)
 
-pytest.global_test_results = []
 
+class EdgeConfig:
 
-def pytest_addoption(parser):
-    """
-    Function for pytest to enable own custom commandline arguments
-    :param parser: argparser
-    :return:
-    """
-    parser.addoption('--config_path', action='store', help='Test case config json')
-    parser.addoption('--show_api_key', action='store', help='true/false to show api keys on logs')
+    def __init__(self, tc_config_data):
+        log.debug('Initializing edge config')
+        self.tc_config_data = tc_config_data
+        self.connection_type = tc_config_data.get('connection_type')
+        log.debug('connection_type: {}'.format(self.connection_type))
+
+    @property
+    def has_remote_terminal(self):
+        return self.tc_config_data.get('has_remote_terminal', True)
+
+    @property
+    def api_key(self):
+        return self.tc_config_data['api_key']
+
+    @property
+    def api_gw(self):
+        return self.tc_config_data['api_gw']
+
+    @property
+    def device_id_configuration_value(self):
+        return self.tc_config_data.get('device_id', None)

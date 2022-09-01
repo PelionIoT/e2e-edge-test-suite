@@ -17,28 +17,36 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-import logging
+"""
+Subscriptions related pytest fixtures
+"""
 
+import logging
 import pytest
 
-pytest_plugins = [
-    'izuma_systest_lib.fixtures.edge_fixtures',
-    'izuma_systest_lib.fixtures.general_fixtures',
-    'izuma_systest_lib.fixtures.iam_fixtures',
-    'izuma_systest_lib.fixtures.notification_fixtures',
-    'izuma_systest_lib.fixtures.subscription_fixtures'
-]
 
 log = logging.getLogger(__name__)
 
-pytest.global_test_results = []
 
+@pytest.fixture(scope='function')
+def subscribe_to_resource(cloud_api, new_temp_test_case_developer_api_key):
+    """
+    Subscribe to resource fixture
+    """
+    subscriptions = []
 
-def pytest_addoption(parser):
-    """
-    Function for pytest to enable own custom commandline arguments
-    :param parser: argparser
-    :return:
-    """
-    parser.addoption('--config_path', action='store', help='Test case config json')
-    parser.addoption('--show_api_key', action='store', help='true/false to show api keys on logs')
+    def subscribe(resource_path):
+        """
+        Presubscribe to resource
+        :param resource_path: Path to resource to subscribe
+        """
+        # Add subscription
+        data = [{'resource-path': [resource_path]}]
+        cloud_api.connect.set_pre_subscriptions(subscription_data=data, api_key=new_temp_test_case_developer_api_key,
+                                                expected_status_code=204)
+        subscriptions.append(resource_path)
+
+    yield subscribe
+
+    # Remove subscriptions
+    cloud_api.connect.remove_pre_subscriptions(api_key=new_temp_test_case_developer_api_key, expected_status_code=204)
