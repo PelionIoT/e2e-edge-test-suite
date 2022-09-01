@@ -1,5 +1,6 @@
 # ----------------------------------------------------------------------------
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -28,7 +29,7 @@ class RemoteTerminal:
 
     def __init__(self, api_key, url):
         """
-        :param api_key: Pelion api key
+        :param api_key: Izuma access key (or API key)
         :param url: Remote terminal url
         """
         self.api_key = api_key
@@ -123,7 +124,7 @@ class RemoteTerminal:
         try:
             return await asyncio.wait_for(self._execute_command_async(cmd, timeout), timeout)
         except asyncio.TimeoutError:
-            raise Exception('Pelion Edge remote terminal is too slow!')
+            raise Exception('Edge remote terminal is too slow!')
         except BaseException as e:
             log.debug(e, exc_info=True)
             raise Exception('Something went wrong with edge remote terminal! Check debug logs.')
