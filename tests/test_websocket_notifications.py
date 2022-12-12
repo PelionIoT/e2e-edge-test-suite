@@ -20,7 +20,7 @@
 
 # ----------------------------------------------------------------------------
 # This test file tests use Izuma notifications API:
-# https://developer.pelion.com/docs/device-management-api/notifications/
+# https://developer.izumanetworks.com/docs/device-management-api/notifications/
 # to register websocket notification channel to receive notifications like:
 # registration, registration-update, resource notifications from device.
 # ----------------------------------------------------------------------------
@@ -58,7 +58,9 @@ def test_registration_update_notification(edge, cloud_api, websocket):
 
 
 def test_registration_notification(edge, cloud_api, websocket):
-    wait_time = 3 * 60
+    # Wait time needs to be quite long, with the LmP OSTree image verifications - boot time is long
+    # Measurement on RPI3B+ showed 15 minutes.
+    wait_time = 20 * 60
     resource = '/3/0/4'
     payload = {'method': 'POST', 'uri': resource}
 

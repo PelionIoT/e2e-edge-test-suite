@@ -3,7 +3,7 @@
 This is the Python test suite for Izuma Edge end-to-end tests. The library is designed to be used with
 the [pytest test framework](https://docs.pytest.org/en/latest/).
 
-For more information, please see the [public documentation](https://developer.pelion.com/docs/device-management-edge/latest/testing/end-to-end.html).
+For more information, please see the [public documentation](https://developer.izumanetworks.com/docs/device-management-edge/latest/testing/end-to-end.html).
 
 ## License
 

@@ -24,7 +24,7 @@
 # part of the set.
 #
 # Information regarding remote terminal
-# https://developer.pelion.com/docs/device-management-edge/2.2/managing/gateway-terminal-service.html
+# https://developer.izumanetworks.com/docs/device-management-edge/2.2/managing/gateway-terminal-service.html
 # ----------------------------------------------------------------------------
 
 import logging
