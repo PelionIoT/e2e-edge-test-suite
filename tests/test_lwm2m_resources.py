@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2020-2021, Pelion and affiliates.
 # Copyright (c) 2022, Izuma Networks
+# Copyright (c) 2020-2021, Pelion and affiliates.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -19,7 +19,7 @@
 
 # ----------------------------------------------------------------------------
 # This test file tests use Izuma connect API:
-# https://developer.pelion.com/docs/device-management-api/connect/
+# https://developer.izumanetworks.com/docs/device-management-api/connect/
 # to read and write resource values from/to device.
 # ----------------------------------------------------------------------------
 
