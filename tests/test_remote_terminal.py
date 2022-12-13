@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2020-2021, Pelion and affiliates.
 # Copyright (c) 2022, Izuma Networks
+# Copyright (c) 2020-2021, Pelion and affiliates.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -24,7 +24,7 @@
 # part of the set.
 #
 # Information regarding remote terminal
-# https://developer.pelion.com/docs/device-management-edge/2.2/managing/gateway-terminal-service.html
+# https://developer.izumanetworks.com/docs/device-management-edge/2.2/managing/gateway-terminal-service.html
 # ----------------------------------------------------------------------------
 
 import logging
