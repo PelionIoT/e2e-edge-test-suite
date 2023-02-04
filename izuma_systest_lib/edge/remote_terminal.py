@@ -27,11 +27,19 @@ log = logging.getLogger(__name__)
 
 class RemoteTerminal:
 
+    loop = None     # For storing the event-loop
+
     def __init__(self, api_key, url):
         """
         :param api_key: Izuma access key (or API key)
         :param url: Remote terminal url
         """
+        # Create loop explicitly, Python 3.10 warns, 3.11 stops working..
+        if self.loop == None:
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+            log.debug(f"RemoteTerminal __init__ self.loop created {self.loop}")
+
         self.api_key = api_key
         self.url = url
 
@@ -136,8 +144,7 @@ class RemoteTerminal:
         :param timeout: timeout in seconds
         :return: message from device
         """
-        loop = asyncio.get_event_loop()
-        ret = loop.run_until_complete(self.execute_command_with_timeout_async(cmd, timeout))
+        ret = self.loop.run_until_complete(self.execute_command_with_timeout_async(cmd, timeout))
         return ret
 
 
