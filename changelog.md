@@ -1,5 +1,8 @@
 # Izuma E2E Edge Python Test Suite Change log
 
+## 1.x.0
+- Python 3.10 warning removal by creating eventloop explicitly.
+
 ## 1.1.0  2022-Sep-01
 - Izuma branding changes.
 - Remove EU and JP config templates.
