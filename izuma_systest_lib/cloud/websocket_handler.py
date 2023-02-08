@@ -401,8 +401,8 @@ class WebSocketRunner:
         _it = threading.Thread(target=self._input_thread, args=(self._api_url, self._api_key),
                                name='websocket_{}'.format(build_random_string(3)))
         _ht = threading.Thread(target=self._handle_thread, name='messages_{}'.format(build_random_string(3)))
-        _it.setDaemon(True)
-        _ht.setDaemon(True)
+        _it.daemon = True
+        _ht.daemon = True
         _it.start()
         _ht.start()
 
