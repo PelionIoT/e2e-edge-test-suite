@@ -1,7 +1,9 @@
 # Izuma E2E Edge Python Test Suite Change log
 
-## 1.x.0
+## 1.2.0
 - Python 3.10 warning removal by creating eventloop explicitly.
+- New test file for checking edge device being on-line ([tests/test_edge_online.py](test/test_edge_online.py)).
+- Fix deprecation warning in `websocket_handler.py` (setDaemon() is deprecated).
 
 ## 1.1.0  2022-Sep-01
 - Izuma branding changes.
