@@ -1,5 +1,8 @@
 # Izuma E2E Edge Python Test Suite Change log
 
+## 1.2.1
+- Add marker `reboot_test` to LwM2M test that resets device. This allows you to skip that test with `pytest -m "not reboot_test"`.
+
 ## 1.2.0
 - Python 3.10 warning removal by creating eventloop explicitly.
 - New test file for checking edge device being on-line ([tests/test_edge_online.py](test/test_edge_online.py)).
