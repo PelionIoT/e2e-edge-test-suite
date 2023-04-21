@@ -2,6 +2,7 @@
 
 ## 1.2.1
 - Add marker `reboot_test` to LwM2M test that resets device. This allows you to skip that test with `pytest -m "not reboot_test"`.
+- Move `pytest.ini` from `tests`-folder to root, this way to the custom marker gets taken into account.
 
 ## 1.2.0
 - Python 3.10 warning removal by creating eventloop explicitly.
