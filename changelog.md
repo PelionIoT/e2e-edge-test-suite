@@ -4,6 +4,7 @@
 - Add marker `reboot_test` to LwM2M test that resets device. This allows you to skip that test with `pytest -m "not reboot_test"`.
 - Move `pytest.ini` from `tests`-folder to root, this way to the custom marker gets taken into account.
 - Upgrade pytest to 7.3.1 and pytest-html 3.2.0 to resolve Python 3.10 compatiblity issue.
+- Add *.xml files to `.gitignore`.
 
 ## 1.2.0
 - Python 3.10 warning removal by creating eventloop explicitly.
