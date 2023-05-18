@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2022, Izuma Networks
 # Copyright (c) 2020-2021, Pelion and affiliates.
+# Copyright (c) 2022-2023, Izuma Networks
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -82,6 +82,10 @@ def test_registration_notification(edge, cloud_api, websocket):
     assert data, 'Registration not received from websocket notification channel'
 
 
+# Add marker - this CPU usage notificiation test will not work on many devices,
+# as they might not have the resource (or the resource value does not get updated regularly)
+# Allows you to skip it with pytest -m "not cpu_notif_test"
+@pytest.mark.cpu_notif_test
 def test_notification_device_cpu_usage(edge, cloud_api, websocket, subscribe_to_resource):
     cpu_usage = '/3/0/3320'
     payload = {'method': 'GET', 'uri': cpu_usage}
