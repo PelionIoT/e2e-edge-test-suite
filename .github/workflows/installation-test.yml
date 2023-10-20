@@ -1,0 +1,37 @@
+name: Installation test
+on: 
+    push:
+        paths:
+            - 'requirements.txt'
+            - 'pytest.ini'
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: e2e-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  python-install:
+    strategy:
+        matrix:
+            os: ["ubuntu-20.04", "ubuntu-22.04"]
+            python-ver: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+            exclude:
+                - os: ubuntu-22.04
+                  python-ver: 3.6
+    runs-on: ${{ matrix.os }} 
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install Python ${{ matrix.python-ver}}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-ver}}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Installation steps on ${{ matrix.os }} w ${{ matrix.python-ver}} 
+        run: | 
+          pip install --upgrade pip
+          pip install -U -r requirements.txt
+      - name: Run collect only
+        run: pytest --collect-only
