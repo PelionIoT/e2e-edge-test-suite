@@ -31,6 +31,7 @@ jobs:
             curl -L -o ./install-misspell.sh https://git.io/misspell
             sh ./install-misspell.sh
             bin/misspell -i mosquitto . >misspell.log
+            echo "## Summary" >>$SUMMARY_FILE
             echo "### misspell" >>$SUMMARY_FILE
             cat misspell.log >>$SUMMARY_FILE
             bin/misspell -error -i mosquitto .
@@ -47,10 +48,9 @@ jobs:
         run: |
               sudo apt-get install pylint
               pylint --version
-              pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/ >pylint.log
-              echo "## Summary" >>$SUMMARY_FILE
+              pylint --exit-zero --persistent=n tests/ izuma_systest_lib/ >pylint.log
               echo "### pylint" >>$SUMMARY_FILE
-              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --rcfile pylintrc --persistent=n systemtest-library test_cases" | tail -n2)
+              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --persistent=n systemtest-library test_cases" | tail -n2)
               echo "$pylintstats" >>$SUMMARY_FILE
               pylintscore=$(tail -2 pylint.log |head -1)
               echo "$pylintscore" >>$SUMMARY_FILE
