@@ -1,5 +1,10 @@
 # Izuma E2E Edge Python Test Suite Change log
 
+## 1.2.2
+- Fixed misspellings.
+- Updated `aiohttp` to 3.8.6 and `requests` to 2.31.0.
+- Minor `pylint` fixes.
+
 ## 1.2.1
 - Add marker `cpu_notif_test` to CPU resource notification test. This allows you to skip that test with `pytest -m "not cpu_notif_test"`. You can skip that and reboot test with `-m 'not (reboot_test or cpu_notif_test)'`.
 - Add marker `reboot_test` to LwM2M test that resets device. This allows you to skip that test with `pytest -m "not reboot_test"`.
