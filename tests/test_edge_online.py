@@ -43,7 +43,7 @@ KUBECLT_GET_NODES = "kubectl get nodes -o=json"
 log = logging.getLogger(__name__)
 
 
-def test_LwM2M_OK(edge, cloud_api, websocket):
+def test_lwm2m_ok(edge, cloud_api, websocket):
     """
     Verify if LwM2M connection is OK to devicey by reading epoch time resource.
 
@@ -77,7 +77,7 @@ def test_LwM2M_OK(edge, cloud_api, websocket):
     assert epoch_delta >= 10, f"Epoch time delta {epoch_delta} not >= 10 s."
 
 
-def test_Kube_is_OK(edge):
+def test_kube_is_ok(edge):
     """
     Verify if Edge Kubernetes is in Ready -state.
 
@@ -110,9 +110,9 @@ def test_Kube_is_OK(edge):
     assert False, f"ERROR - can't find device ID {edge.device_id} from kubectl get nodes."
 
 
-def test_Terminal_OK(edge):
+def test_terminal_ok(edge):
     """
-    Verify if Edge Terminal is responding to echo command.
+    Verify if Edge terminal is responding to echo command.
 
     :param edge:    Edge -structure
     """
@@ -122,19 +122,19 @@ def test_Terminal_OK(edge):
     assert "terminal_is_alive" == edge.execute_remote_terminal("echo terminal_is_alive"), "Remote terminal not OK."
 
 
-def test_Edge_Online(edge, cloud_api, websocket):
+def test_edge_online(edge, cloud_api, websocket):
     """
     Verify if Edge is online using the 3 tests above.
 
     You can run this test in repeat:
 
-    pytest --count=10 --config_path=config-rpi3.json tests/test_edge_online.py::test_Edge_Online
+    pytest --count=10 --config_path=config-rpi3.json tests/test_edge_online.py::test_edge_online
 
     :param edge:        edge structure with device ID etc.
     :param cloud_api:   cloud API struct
     :param websocket:   websocket for async notifications
     """
 
-    test_LwM2M_OK(edge, cloud_api, websocket)
-    test_Terminal_OK(edge)
-    test_Kube_is_OK(edge)
+    test_lwm2m_ok(edge, cloud_api, websocket)
+    test_terminal_ok(edge)
+    test_kube_is_ok(edge)
