@@ -56,6 +56,7 @@ def test_registration_update_notification(edge, cloud_api, websocket):
 
     assert data, 'Registration update not received from websocket notification channel'
 
+
 # Add marker - this reboot test is not always that useful, so having the marker
 # Allows you to skip it with pytest -m "not reboot_test"
 @pytest.mark.reboot_test
