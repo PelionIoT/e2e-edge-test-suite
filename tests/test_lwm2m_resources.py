@@ -24,9 +24,9 @@
 # ----------------------------------------------------------------------------
 
 import logging
-import pytest
 import random
 import base64
+import pytest
 
 from izuma_systest_lib.cloud import connect_handler
 
