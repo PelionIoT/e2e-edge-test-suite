@@ -66,7 +66,7 @@ def kube_config_file_path(tc_config_data):
         utils.execute_local_command('kubectl config use-context edge-k8s')
         log.debug('Temporary kubernetes configuration successfully created and in use')
     else:
-        log.debug('No need to create temporary kubernetes konfiguration')
+        log.debug('No need to create temporary kubernetes configuration')
     yield kube_config_path
 
     # Remove temporary configuration when running outside Jenkins
@@ -80,7 +80,7 @@ def edge(kube_config_file_path, tc_config_data):
     """
     Initializes connection to edge via RaaS or locally (subprocess) based on configuration.
     Release connection when not needed anymore
-    :param kube_config_file_path: Kubernetes konfiguration file path
+    :param kube_config_file_path: Kubernetes configuration file path
     :param tc_config_data: Test case config
     :return: resource
     """
@@ -106,7 +106,7 @@ def kubectl(edge):  # pylint: disable=unused-argument
 def kaas(kube_config_file_path):
     """
     Open connection to the kubernets as a service (KAAS) using kubernets python sdk
-    :param kube_config_file_path: Kubernetes konfiguration file path
+    :param kube_config_file_path: Kubernetes configuration file path
     :return: api_client
     """
     custom_configuration = Configuration()

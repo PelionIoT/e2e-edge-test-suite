@@ -100,7 +100,7 @@ def _assert_status(expected_resp, response):
     Status code comparison
     :param expected_resp: Expected response, one value or list of values
     :param response: Request response
-    :return: Comparision result
+    :return: Comparison result
     """
     if isinstance(expected_resp, list):
         return response.status_code in expected_resp
