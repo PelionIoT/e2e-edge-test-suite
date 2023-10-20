@@ -35,7 +35,7 @@ class RemoteTerminal:
         :param url: Remote terminal url
         """
         # Create loop explicitly, Python 3.10 warns, 3.11 stops working..
-        if self.loop == None:
+        if self.loop is None:
             self.loop = asyncio.new_event_loop()
             asyncio.set_event_loop(self.loop)
             log.debug(f"RemoteTerminal __init__ self.loop created {self.loop}")

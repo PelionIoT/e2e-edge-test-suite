@@ -32,12 +32,8 @@
 import logging
 import time
 import pytest
-import os
 import json
 
-from izuma_systest_lib.edge.kaas import Kaas
-from izuma_systest_lib.edge.kubectl import Kubectl
-from izuma_systest_lib.tools import execute_with_retry
 from izuma_systest_lib.cloud import connect_handler
 from izuma_systest_lib.tools import execute_local_command
 
@@ -56,7 +52,6 @@ def test_LwM2M_OK(edge, cloud_api, websocket):
     :param websocket:   websocket for async notifications
     """
 
-    EPOCH_BASE_DELTA = 0
     resource = '/3/0/13'
     payload = {'method': 'GET', 'uri': resource}
     resp = connect_handler.send_async_device_and_wait_for_response(cloud_api,
@@ -80,6 +75,7 @@ def test_LwM2M_OK(edge, cloud_api, websocket):
     epoch_delta = epoch_received_10s_later - epoch_received
     log.debug("Received /3/0/13 epoch time {epoch_received} 10 s later.")
     assert epoch_delta >= 10, f"Epoch time delta {epoch_delta} not >= 10 s."
+
 
 def test_Kube_is_OK(edge):
     """
@@ -113,6 +109,7 @@ def test_Kube_is_OK(edge):
     )
     assert False, f"ERROR - can't find device ID {edge.device_id} from kubectl get nodes."
 
+
 def test_Terminal_OK(edge):
     """
     Verify if Edge Terminal is responding to echo command.
@@ -141,4 +138,3 @@ def test_Edge_Online(edge, cloud_api, websocket):
     test_LwM2M_OK(edge, cloud_api, websocket)
     test_Terminal_OK(edge)
     test_Kube_is_OK(edge)
-
