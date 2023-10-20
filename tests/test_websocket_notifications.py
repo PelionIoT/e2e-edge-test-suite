@@ -26,11 +26,11 @@
 # ----------------------------------------------------------------------------
 
 
-import pytest
 import logging
 import base64
-from izuma_systest_lib.cloud import connect_handler
 import time
+from izuma_systest_lib.cloud import connect_handler
+import pytest
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
