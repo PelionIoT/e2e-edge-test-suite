@@ -1,0 +1,96 @@
+name: PR-checker
+on: push
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: izuma-system-tests-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    env:
+      SUMMARY_FILE: summary.log
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Set GitHub access token via git config
+        run: | 
+          git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "git@github.com:"
+          git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github".insteadOf "https://github"
+      - run: git clone git@github.com:PelionIoT/scripts-internal.git
+
+      # Need to run this 1st, so that the other log files do not cause unnecessary findings
+      - name: Run misspell
+        if: always()
+        run: |
+            curl -L -o ./install-misspell.sh https://git.io/misspell
+            sh ./install-misspell.sh
+            bin/misspell -i mosquitto . >misspell.log
+            echo "### misspell" >>$SUMMARY_FILE
+            cat misspell.log >>$SUMMARY_FILE
+            bin/misspell -error -i mosquitto .
+            lines=$(wc -l < "misspell.log")
+            if [[ $lines -gt 0 ]]; then
+              echo "Misspell has findings, fail."
+              echo "TEST_FAIL=true" >> $GITHUB_ENV
+              exit 1
+            fi          
+
+      - name: Run pylint (findings may not increase)
+        run: |
+              sudo apt-get install pylint
+              pylint --version
+              pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/ >pylint.log
+              echo "## Summary" >>$SUMMARY_FILE
+              echo "### pylint" >>$SUMMARY_FILE
+              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --rcfile pylintrc --persistent=n systemtest-library test_cases" | tail -n2)
+              echo "$pylintstats" >>$SUMMARY_FILE
+              pylintscore=$(tail -2 pylint.log |head -1)
+              echo "$pylintscore" >>$SUMMARY_FILE
+              echo "$pylintstats"
+              if [[ $pylintstats == *"Oh no"* ]]; then
+                # More findings than earlier
+                echo "TEST_FAIL=true" >> $GITHUB_ENV
+                exit 1
+              fi
+      - name: Run flake8 (findings may not increase)
+        if: always()
+        run: |
+              sudo apt-get install flake8
+              flake8 --version
+              echo "Starting flake8..."
+              flake8 --exit-zero --exclude=izuma_systest_lib/.eggs,scripts-internal --max-line-length=130 >flake8.log
+              echo "### flake8" >>$SUMMARY_FILE
+              flakestats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} \
+                           "flake8 --exit-zero --exclude=systemtest-library/.eggs,scripts-internal --max-line-length=130" | tail -n2)
+              echo "$flakestats" >>$SUMMARY_FILE
+              echo "$flakestats"
+              if [[ $flakestats == *"Oh no"* ]]; then
+                # More findings than earlier
+                echo "TEST_FAIL=true" >> $GITHUB_ENV
+                exit 1
+              fi
+
+      - name: Archive production artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+            name: Findings logs
+            path: |
+                *.log
+      - name: Summary
+        if: always()
+        run: cat $SUMMARY_FILE >>$GITHUB_STEP_SUMMARY
+
+      - name: Set whole job status based on found fails
+        if: always()
+        run: |
+          if [ "$TEST_FAIL" = "true" ]; then
+            echo "Some test has failed, fail the job."
+            exit 1  # You can choose to exit with success (0) to mark this step as successful but skipped.
+          fi
