@@ -24,7 +24,7 @@ This module is for cloud's config management API functions
 
 class EdgeConfigManagementAPI:
     """
-    A class that provides edge config managment.
+    A class that provides edge config management.
     https://github.com/PelionIoT/wigwag-cloud-relay-configs/blob/master/swagger.yaml
     """
 
