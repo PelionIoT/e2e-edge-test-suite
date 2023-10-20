@@ -39,6 +39,8 @@ jobs:
               echo "Misspell has findings, fail."
               echo "TEST_FAIL=true" >> $GITHUB_ENV
               exit 1
+            else
+                echo "No findings." >>$SUMMARY_FILE
             fi          
 
       - name: Run pylint (findings may not increase)
@@ -58,7 +60,7 @@ jobs:
                 echo "TEST_FAIL=true" >> $GITHUB_ENV
                 exit 1
               fi
-      - name: Run flake8 (findings may not increase)
+      - name: Run flake8
         if: always()
         run: |
               sudo apt-get install flake8
@@ -66,15 +68,14 @@ jobs:
               echo "Starting flake8..."
               flake8 --exit-zero --exclude=izuma_systest_lib/.eggs,scripts-internal --max-line-length=130 >flake8.log
               echo "### flake8" >>$SUMMARY_FILE
-              flakestats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} \
-                           "flake8 --exit-zero --exclude=systemtest-library/.eggs,scripts-internal --max-line-length=130" | tail -n2)
-              echo "$flakestats" >>$SUMMARY_FILE
-              echo "$flakestats"
-              if [[ $flakestats == *"Oh no"* ]]; then
-                # More findings than earlier
+              lines=$(wc -l < "flake8.log")
+              if [[ $lines -gt 0 ]]; then
+                echo "Flake8 has findings, fail."
                 echo "TEST_FAIL=true" >> $GITHUB_ENV
                 exit 1
-              fi
+              else
+                echo "No findings." >>$SUMMARY_FILE
+              fi    
 
       - name: Archive production artifacts
         if: always()
