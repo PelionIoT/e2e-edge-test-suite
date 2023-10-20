@@ -16,9 +16,7 @@ jobs:
     strategy:
         matrix:
             os: ["ubuntu-20.04", "ubuntu-22.04"]
-            # aiohttp does not compile against 3.11
-            # https://github.com/aio-libs/aiohttp/issues/6600
-            python-ver: ["3.7", "3.8", "3.9", "3.10"]
+            python-ver: ["3.7", "3.8", "3.9", "3.10", "3.11"]
             exclude:
                 - os: ubuntu-22.04
                   python-ver: 3.6
