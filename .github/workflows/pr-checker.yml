@@ -13,16 +13,17 @@ jobs:
       SUMMARY_FILE: summary.log
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Set GitHub access token via git config
-        run: | 
-          git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github".insteadOf "https://github"
-      - run: git clone git@github.com:PelionIoT/scripts-internal.git
+
+      - name: Clone scripts-internal
+        uses: actions/checkout@v4
+        with:
+          repository: PelionIoT/scripts-internal
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       # Need to run this 1st, so that the other log files do not cause unnecessary findings
       - name: Run misspell
