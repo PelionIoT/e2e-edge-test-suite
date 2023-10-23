@@ -1,9 +1,15 @@
 name: PR-checker
-on: push
+on: 
+    push:
+    workflow_dispatch:
+      inputs:
+          python-version:
+            description: 'Python version to use'
+            default: '3.9'
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
-  group: izuma-system-tests-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: e2e-edge-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
 
 jobs:

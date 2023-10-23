@@ -5,6 +5,7 @@ on:
             - 'requirements.txt'
             - 'pytest.ini'
             - '.github/workflows/installation-test.yml'
+    workflow_dispatch:
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
