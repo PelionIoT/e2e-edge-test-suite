@@ -29,8 +29,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: PelionIoT/scripts-internal
+          path: scripts-internal
           token: ${{ secrets.ACCESS_TOKEN }}
-
+      - run: tree -d
       # Need to run this 1st, so that the other log files do not cause unnecessary findings
       - name: Run misspell
         if: always()
