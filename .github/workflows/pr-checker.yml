@@ -56,8 +56,8 @@ jobs:
               sudo apt-get install pylint
               echo "### pylint" >>$SUMMARY_FILE
               pylint --version >>$SUMMARY_FILE
-              pylint --exit-zero --persistent=n tests/ izuma_systest_lib/ >pylint.log
-              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --persistent=n tests/ izuma_systest_lib/" pylint | tail -n3)
+              pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/ >pylint.log
+              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/" pylint | tail -n3)
               echo "$pylintstats" >>$SUMMARY_FILE
               pylintscore=$(tail -2 pylint.log |head -1)
               echo "$pylintscore" >>$SUMMARY_FILE
