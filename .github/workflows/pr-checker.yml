@@ -31,7 +31,6 @@ jobs:
           repository: PelionIoT/scripts-internal
           path: scripts-internal
           token: ${{ secrets.ACCESS_TOKEN }}
-      - run: tree -d
       # Need to run this 1st, so that the other log files do not cause unnecessary findings
       - name: Run misspell
         if: always()
@@ -60,9 +59,8 @@ jobs:
               pylint --exit-zero --persistent=n tests/ izuma_systest_lib/ >pylint.log
               pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --persistent=n tests/ izuma_systest_lib/" pylint | tail -n3)
               echo "$pylintstats" >>$SUMMARY_FILE
-              pylintscore=$(tail -3 pylint.log |head -1)
+              pylintscore=$(tail -2 pylint.log |head -1)
               echo "$pylintscore" >>$SUMMARY_FILE
-              echo "$pylintstats" >>$SUMMARY_FILE
               if [[ $pylintstats == *"Oh no"* ]]; then
                 # More findings than earlier
                 echo "TEST_FAIL=true" >> $GITHUB_ENV
