@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          # Use the branch specified by the workflow_dispatch input or the pull_request event
+          ref: ${{ github.event.inputs.branch || github.event.pull_request.head.ref }}
       - name: Install Python ${{ matrix.python-ver}}
         uses: actions/setup-python@v4
         with:
