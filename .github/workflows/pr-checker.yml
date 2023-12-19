@@ -57,7 +57,7 @@ jobs:
               echo "### pylint" >>$SUMMARY_FILE
               pylint --version >>$SUMMARY_FILE
               pylint --exit-zero --persistent=n tests/ izuma_systest_lib/ >pylint.log
-              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero systemtest-library test_cases" pylint | tail -n3)
+              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --persistent=n tests/ izuma_systest_lib/" pylint | tail -n3)
               echo "$pylintstats" >>$SUMMARY_FILE
               pylintscore=$(tail -3 pylint.log |head -1)
               echo "$pylintscore" >>$SUMMARY_FILE
