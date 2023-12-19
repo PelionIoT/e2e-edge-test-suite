@@ -1,5 +1,8 @@
 # Izuma E2E Edge Python Test Suite Change log
 
+## 1.2.3
+- Updated `aiohttp` to 3.9.0 (from 3.8.6).
+
 ## 1.2.2
 - Fixed misspellings.
 - Updated `aiohttp` to 3.8.6 and `requests` to 2.31.0.
