@@ -1,9 +1,15 @@
 name: PR-checker
-on: push
+on: 
+    push:
+    workflow_dispatch:
+      inputs:
+          python-version:
+            description: 'Python version to use'
+            default: '3.9'
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
-  group: izuma-system-tests-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: e2e-edge-'${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
 
 jobs:
@@ -23,8 +29,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: PelionIoT/scripts-internal
+          path: scripts-internal
           token: ${{ secrets.ACCESS_TOKEN }}
-
       # Need to run this 1st, so that the other log files do not cause unnecessary findings
       - name: Run misspell
         if: always()
@@ -48,14 +54,13 @@ jobs:
       - name: Run pylint (findings may not increase)
         run: |
               sudo apt-get install pylint
-              pylint --version
-              pylint --exit-zero --persistent=n tests/ izuma_systest_lib/ >pylint.log
               echo "### pylint" >>$SUMMARY_FILE
-              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --persistent=n systemtest-library test_cases" | tail -n2)
+              pylint --version >>$SUMMARY_FILE
+              pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/ >pylint.log
+              pylintstats=$(scripts-internal/ci/more-lines-checker.sh ${{ github.event.repository.default_branch }} ${{ github.ref_name }} "pylint --exit-zero --rcfile pylintrc --persistent=n tests/ izuma_systest_lib/" pylint | tail -n3)
               echo "$pylintstats" >>$SUMMARY_FILE
               pylintscore=$(tail -2 pylint.log |head -1)
               echo "$pylintscore" >>$SUMMARY_FILE
-              echo "$pylintstats"
               if [[ $pylintstats == *"Oh no"* ]]; then
                 # More findings than earlier
                 echo "TEST_FAIL=true" >> $GITHUB_ENV
