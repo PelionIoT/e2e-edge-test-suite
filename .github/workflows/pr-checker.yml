@@ -32,16 +32,19 @@ jobs:
           path: scripts-internal
           token: ${{ secrets.ACCESS_TOKEN }}
       # Need to run this 1st, so that the other log files do not cause unnecessary findings
-      - name: Run misspell
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Install & run misspell
         if: always()
         run: |
-            curl -L -o ./install-misspell.sh https://git.io/misspell
-            sh ./install-misspell.sh
-            bin/misspell -i mosquitto . >misspell.log
+            go install github.com/golangci/misspell/cmd/misspell@latest
+            misspell -i mosquitto . >misspell.log
             echo "## Summary" >>$SUMMARY_FILE
             echo "### misspell" >>$SUMMARY_FILE
             cat misspell.log >>$SUMMARY_FILE
-            bin/misspell -error -i mosquitto .
+            misspell -error -i mosquitto .
             lines=$(wc -l < "misspell.log")
             if [[ $lines -gt 0 ]]; then
               echo "Misspell has findings, fail."
