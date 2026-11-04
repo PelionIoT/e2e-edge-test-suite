@@ -10,3 +10,5 @@ venv/
 *.html
 *.json
 *.xml
+
+.izlocal

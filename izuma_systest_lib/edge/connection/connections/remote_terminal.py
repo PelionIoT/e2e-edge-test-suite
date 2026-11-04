@@ -38,7 +38,7 @@ class RemoteTerminalConnection(AbstractConnector):
 
         self.remote_terminal = RemoteTerminal(
             api_key=config['api_key'],
-            url=RemoteTerminal.get_wss_address(config['api_gw'], config.get('device_id'))
+            url=RemoteTerminal.get_wss_address(config.get('gateways_url', config['api_gw']), config.get('device_id'))
         )
 
     def connect(self, timeout=10):
