@@ -87,7 +87,7 @@ class EdgeConnector(EdgeConfig):
     def execute_remote_terminal(self, command):
         return RemoteTerminal(
             api_key=self.api_key,
-            url=RemoteTerminal.get_wss_address(self.tc_config_data.get('gateways_url', self.api_gw), self.device_id)
+            url=RemoteTerminal.get_wss_address(self.api_gw, self.device_id)
         ).execute_command(command)
 
     @property

@@ -102,6 +102,16 @@ def test_notification_device_cpu_usage(edge, cloud_api, websocket, subscribe_to_
         pytest.skip('Device does not have specific resource: {}.'.format(cpu_usage))
 
     subscribe_to_resource(cpu_usage)
+    # Device Management applies a pre-subscription when the device next updates its
+    # registration, and the gateway's lifetime (1000-3599 s after test_put_lifetime)
+    # spaces those updates beyond the wait below. Executing /1/0/8 asks for one now.
+    payload = {'method': 'POST', 'uri': '/1/0/8'}
+    response = connect_handler.send_async_device_and_wait_for_response(cloud_api,
+                                                                       channel_type=websocket,
+                                                                       ep_id=edge.device_id,
+                                                                       apikey=websocket.api_key,
+                                                                       payload=payload, async_id=None)
+    assert response and response['status'] == 200, 'Registration update to apply the pre-subscription failed'
     time.sleep(10)
 
     payload = None

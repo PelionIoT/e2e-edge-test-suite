@@ -158,6 +158,6 @@ def execute_command_on_gateway(edge, tc_config_data, command):
     """
     gateway_resp = RemoteTerminal(
         api_key=tc_config_data['api_key'],
-        url=RemoteTerminal.get_wss_address(tc_config_data.get('gateways_url', tc_config_data['api_gw']), edge.device_id)
+        url=RemoteTerminal.get_wss_address(tc_config_data['api_gw'], edge.device_id)
     ).execute_command(command)
     return gateway_resp
