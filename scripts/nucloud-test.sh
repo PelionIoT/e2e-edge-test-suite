@@ -3,7 +3,7 @@
 # on the stage in NUCLOUD_API_URL. SUITES picks test paths and pytest arguments.
 set -eu
 : "${NUCLOUD_API_URL:?make test sets it}" "${NUCLOUD_API_KEY:?make test sets it}"
-: "${NUCLOUD_CONFIG_JSON:?run with ACCOUNT=edge: the env file names the gateway}"
+: "${NUCLOUD_CONFIG_JSON:?make setup verifies it: run with ACCOUNT=edge}"
 config=$(mktemp)
 python3 - "$config" <<'PY'
 import base64, json, os, sys
