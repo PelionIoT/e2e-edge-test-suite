@@ -1,0 +1,16 @@
+# Classifier tags per case: nucloud scripts/testing-tag-classify.py. <case>\t<canonical tags>
+# Correct a wrong tag here or in the source, never by changing a verdict.
+tests/test_device_attributes.py::test_device_registered	cloud:writes
+tests/test_edge_online.py::test_edge_online	cloud:writes
+tests/test_edge_online.py::test_kube_is_ok	cloud:writes
+tests/test_edge_online.py::test_lwm2m_ok	cloud:read-only
+tests/test_edge_online.py::test_terminal_ok	cloud:writes
+tests/test_k8s_kubectl.py::test_node	cloud:writes
+tests/test_k8s_kubectl.py::test_pod	cloud:writes
+tests/test_k8s_kubectl.py::test_pod_state	cloud:read-only
+tests/test_lwm2m_resources.py::test_get_lifetime	cloud:read-only
+tests/test_lwm2m_resources.py::test_put_lifetime	cloud:writes
+tests/test_remote_terminal.py::test_remote_terminal	cloud:writes
+tests/test_websocket_notifications.py::test_notification_device_cpu_usage	cloud:writes
+tests/test_websocket_notifications.py::test_registration_notification	cloud:writes
+tests/test_websocket_notifications.py::test_registration_update_notification	cloud:writes

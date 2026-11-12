@@ -1,0 +1,18 @@
+# Upstream tags of e2e-edge-test-suite, each under the repo prefix with its original spelling as an alias.
+# Written by nucloud scripts/testing-tag-classify.py; see docs/nucloud.md#tags.
+
+[repo]
+prefix = "e2e-edge-test-suite"
+
+[tags."e2e-edge-test-suite:cpu-notif-test"]
+default = "include"
+source  = "author"
+means   = "Upstream tag cpu_notif_test"
+aliases = ["cpu_notif_test"]
+
+[tags."e2e-edge-test-suite:reboot-test"]
+default = "include"
+source  = "author"
+means   = "Upstream tag reboot_test"
+aliases = ["reboot_test"]
+
