@@ -12,3 +12,4 @@ venv/
 *.xml
 
 .izlocal
+.nucloud-logs/
