@@ -1,16 +1,16 @@
 # Classifier tags per case: nucloud scripts/testing-tag-classify.py. <case>\t<canonical tags>
 # Correct a wrong tag here or in the source, never by changing a verdict.
-tests/test_device_attributes.py::test_device_registered	cloud:writes
-tests/test_edge_online.py::test_edge_online	cloud:writes
-tests/test_edge_online.py::test_kube_is_ok	cloud:writes
-tests/test_edge_online.py::test_lwm2m_ok	cloud:read-only
-tests/test_edge_online.py::test_terminal_ok	cloud:writes
-tests/test_k8s_kubectl.py::test_node	cloud:writes
-tests/test_k8s_kubectl.py::test_pod	cloud:writes
-tests/test_k8s_kubectl.py::test_pod_state	cloud:read-only
-tests/test_lwm2m_resources.py::test_get_lifetime	cloud:read-only
-tests/test_lwm2m_resources.py::test_put_lifetime	cloud:writes
-tests/test_remote_terminal.py::test_remote_terminal	cloud:writes
-tests/test_websocket_notifications.py::test_notification_device_cpu_usage	cloud:writes
-tests/test_websocket_notifications.py::test_registration_notification	cloud:writes
-tests/test_websocket_notifications.py::test_registration_update_notification	cloud:writes
+tests/test_device_attributes.py::test_device_registered	api:devices cloud:apiwrites feature:device-attributes needs:device service:device-directory
+tests/test_edge_online.py::test_edge_online	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites feature:edge-online fixture:connect-api fixture:edge-gateway needs:device needs:edge service:iam service:mds tier:standard
+tests/test_edge_online.py::test_kube_is_ok	cloud:apiwrites feature:edge-online fixture:connect-api fixture:edge-gateway needs:device needs:edge needs:kaas tier:fast
+tests/test_edge_online.py::test_lwm2m_ok	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:read-only feature:edge-online fixture:connect-api fixture:edge-gateway needs:device service:iam service:mds tier:standard
+tests/test_edge_online.py::test_terminal_ok	api:api-keys api:devices api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites feature:edge-online fixture:connect-api fixture:edge-gateway needs:device needs:edge service:device-directory service:iam service:mds tier:fast
+tests/test_k8s_kubectl.py::test_node	cloud:apiwrites cloud:manipulator:kubectl feature:k8s-kubectl fixture:edge-gateway fixture:kaas needs:device needs:edge needs:kaas tier:fast
+tests/test_k8s_kubectl.py::test_pod	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites cloud:manipulator:kubectl cloud:manipulator:pod feature:k8s-kubectl fixture:edge-gateway fixture:kaas needs:device needs:edge needs:kaas service:iam service:mds tier:fast
+tests/test_k8s_kubectl.py::test_pod_state	cloud:manipulator:kubectl cloud:manipulator:pod cloud:read-only feature:k8s-kubectl fixture:edge-gateway fixture:kaas needs:device needs:edge needs:kaas tier:fast
+tests/test_lwm2m_resources.py::test_get_lifetime	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:read-only feature:lwm2m-resources fixture:connect-api fixture:lwm2m needs:device service:iam service:mds
+tests/test_lwm2m_resources.py::test_put_lifetime	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites feature:lwm2m-resources fixture:connect-api fixture:lwm2m needs:device service:iam service:mds
+tests/test_remote_terminal.py::test_remote_terminal	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites feature:remote-terminal needs:device needs:edge service:iam service:mds tier:fast
+tests/test_websocket_notifications.py::test_notification_device_cpu_usage	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification api:v2-subscriptions cloud:apiwrites feature:websocket-notifications fixture:connect-api fixture:notifications needs:device service:iam service:mds
+tests/test_websocket_notifications.py::test_registration_notification	cloud:apiwrites feature:websocket-notifications fixture:connect-api fixture:notifications needs:device
+tests/test_websocket_notifications.py::test_registration_update_notification	api:api-keys api:policy-groups api:v2-device-requests api:v2-notification cloud:apiwrites feature:websocket-notifications fixture:connect-api fixture:notifications needs:device service:iam service:mds
