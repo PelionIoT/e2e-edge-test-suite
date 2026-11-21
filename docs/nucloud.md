@@ -86,7 +86,7 @@ any import or Helm upgrade starts. Missing images cause an error; this
 command never builds, pulls or pushes images. `make deploy` rejects
 `IMAGE_SUFFIX` so a build cannot overwrite an earlier build's selected tag.
 
-`deploy` finds the stage's incus remote and VM in `.iz`, which every repo
+`deploy` finds the stage's Incus remote and instance in `.iz`, which every repo
 carries. `.iz` defines the shared clouds: the K3s clouds `k3s-ed`, `k3s-trav-c`
 and `k3s-golden` and the Kubernetes (k8s) cloud `staging`, all on the `D71`
 remote, and lists `k3s-golden` and `staging` under `[nucloud] production`:
